@@ -147,7 +147,7 @@
         <!-- 昵称输入 -->
         <view class="login-nickname-section">
           <text class="login-field-label">昵称</text>
-          <input class="login-nickname-input" type="text" placeholder="请输入昵称" value="{{tempNickName}}" bindinput="onNickNameInput" />
+          <input wx:if="{{showLoginModal}}" class="login-nickname-input" type="text" placeholder="请输入昵称" value="{{tempNickName}}" bindinput="onNickNameInput" />
         </view>
       </view>
 

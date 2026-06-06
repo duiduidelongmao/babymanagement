@@ -39,7 +39,7 @@
     <view class="nickname-preset">
       <view class="preset-item {{selectedNickname === item ? 'active' : ''}}" wx:for="{{presetNicknames}}" wx:key="*this" data-name="{{item}}" bindtap="onSelectPreset">{{item}}</view>
     </view>
-    <input class="nickname-input" placeholder="自定义称呼" value="{{inputNickname}}" bindinput="onNicknameInput" />
+    <input wx:if="{{showNicknameModal}}" class="nickname-input" placeholder="自定义称呼" value="{{inputNickname}}" bindinput="onNicknameInput" />
     <view class="nickname-actions">
       <view class="btn-cancel" bindtap="onCloseNicknameModal">取消</view>
       <view class="btn-confirm" bindtap="onConfirmNickname">完成</view>
@@ -51,7 +51,7 @@
 <view class="nickname-mask {{showNameModal ? 'show' : ''}}" bindtap="onCloseNameModal">
   <view class="nickname-popup" catchtap="preventBubble">
     <view class="nickname-title">编辑家庭名称</view>
-    <input class="nickname-input" placeholder="输入家庭名称" value="{{inputFamilyName}}" bindinput="onFamilyNameInput" />
+    <input wx:if="{{showNameModal}}" class="nickname-input" placeholder="输入家庭名称" value="{{inputFamilyName}}" bindinput="onFamilyNameInput" />
     <view class="nickname-actions">
       <view class="btn-cancel" bindtap="onCloseNameModal">取消</view>
       <view class="btn-confirm" bindtap="onConfirmFamilyName">完成</view>
