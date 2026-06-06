@@ -99,7 +99,6 @@ Page({
   onShow() {
     const app = getApp()
     this.setData({ loggedIn: isLoggedIn() })
-    if (!this.data.loggedIn) return
     this.loadData()
     if (this.data.pendingInviteCode) {
       this.handleInviteCode(this.data.pendingInviteCode)
@@ -111,37 +110,60 @@ Page({
     }
   },
 
+  requireLogin(callback) {
+    if (!isLoggedIn()) {
+      const app = getApp()
+      app.globalData.autoShowLogin = true
+      wx.switchTab({ url: '/pages/mine/mine' })
+      return
+    }
+    callback()
+  },
+
   onGoLogin() {
     wx.switchTab({ url: '/pages/mine/mine' })
   },
 
+  onLoginTap() {
+    const app = getApp()
+    app.globalData.autoShowLogin = true
+    wx.switchTab({ url: '/pages/mine/mine' })
+  },
+
   onGoIncome() {
-    wx.navigateTo({ url: '/pages/income-detail/income-detail' })
+    this.requireLogin(() => {
+      wx.navigateTo({ url: '/pages/income-detail/income-detail' })
+    })
   },
 
   onGoExpense() {
-    wx.navigateTo({ url: '/pages/expense-detail/expense-detail' })
+    this.requireLogin(() => {
+      wx.navigateTo({ url: '/pages/expense-detail/expense-detail' })
+    })
   },
 
   onDailyTap(e) {
     const date = e.currentTarget.dataset.date
-    if (date) {
+    if (!date) return
+    this.requireLogin(() => {
       wx.navigateTo({ url: '/pages/income-detail/income-detail?date=' + date })
-    }
+    })
   },
 
   onCategoryTap(e) {
     const name = e.currentTarget.dataset.name
-    if (name) {
+    if (!name) return
+    this.requireLogin(() => {
       wx.navigateTo({ url: '/pages/category-detail/category-detail?categoryName=' + encodeURIComponent(name) + '&range=' + this.data.currentRange })
-    }
+    })
   },
 
   onGradeTap(e) {
     const grade = e.currentTarget.dataset.grade
-    if (grade) {
+    if (!grade) return
+    this.requireLogin(() => {
       wx.navigateTo({ url: '/pages/category-detail/category-detail?grade=' + grade + '&range=' + this.data.currentRange })
-    }
+    })
   },
 
   drawTrendLine() {
@@ -236,11 +258,25 @@ Page({
 
   loadData() {
     const child = getCurrentChild()
-    if (!child) return
-
     const range = this.data.currentRange
     const { start, end, startStr, endStr } = getDateRange(range)
     const children = getChildren()
+
+    if (!child) {
+      this.setData({
+        dateRange: `${startStr} - ${endStr}`,
+        currentChildName: '宝贝',
+        currentChildAvatar: '🧒',
+        childrenCount: children.length,
+        stats: { income: 0, expense: 0, netValue: 0 },
+        trendData: [],
+        trendSvg: '',
+        categoryList: [],
+        gradeList: [],
+        dailyList: []
+      })
+      return
+    }
 
     this.setData({
       dateRange: `${startStr} - ${endStr}`,
@@ -264,14 +300,16 @@ Page({
   },
 
   onChildSwitch() {
-    const children = getChildren()
-    if (children.length <= 1) return
-    wx.showActionSheet({
-      itemList: children.map(c => c.name),
-      success: (res) => {
-        setCurrentChildId(children[res.tapIndex].id)
-        this.loadData()
-      }
+    this.requireLogin(() => {
+      const children = getChildren()
+      if (children.length <= 1) return
+      wx.showActionSheet({
+        itemList: children.map(c => c.name),
+        success: (res) => {
+          setCurrentChildId(children[res.tapIndex].id)
+          this.loadData()
+        }
+      })
     })
   },
 

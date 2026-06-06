@@ -1,3 +1,14 @@
+/* 未登录点击拦截层 */
+.login-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background: transparent;
+}
+
 .page-header { margin-bottom: 20rpx; }
 .page-title { font-size: 48rpx; font-weight: 800; color: #333333; }
 

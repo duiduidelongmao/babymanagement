@@ -1,3 +1,14 @@
+/* 未登录点击拦截层 */
+.login-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background: transparent;
+}
+
 /* 孩子选择器 */
 .child-selector { display: flex; align-items: center; margin-bottom: 20rpx; }
 .child-icon-wrap { width: 72rpx; height: 72rpx; border-radius: 50%; background: #FFF5EB; display: flex; align-items: center; justify-content: center; margin-right: 16rpx; }
@@ -5,7 +16,7 @@
 .child-name { display: flex; align-items: baseline; gap: 8rpx; }
 .name-text { font-size: 36rpx; font-weight: 700; color: #FF8C00; }
 .name-label { font-size: 28rpx; color: #FF8C00; }
-.child-arrow { font-size: 20rpx; color: #FF8C00; margin-left: 8rpx; }
+.child-arrow { font-size: 20rpx; color: #FF8C00; }
 
 /* 记录日期 */
 .date-card { display: flex; align-items: center; justify-content: space-between; padding: 20rpx 28rpx; margin-bottom: 20rpx; }

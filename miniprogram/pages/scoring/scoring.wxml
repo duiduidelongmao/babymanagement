@@ -1,14 +1,8 @@
 <view class="container">
-  <!-- 未登录提示 -->
-  <view class="login-required" wx:if="{{!loggedIn}}">
-    <view class="login-required-icon">🔒</view>
-    <view class="login-required-text">请先登录开始计分</view>
-    <view class="login-required-btn" bindtap="onGoLogin">去登录</view>
-  </view>
+  <!-- 未登录点击拦截层 -->
+  <view class="login-mask" wx:if="{{!loggedIn}}" catchtap="onLoginTap"></view>
 
-  <!-- 已登录 -->
-  <block wx:if="{{loggedIn}}">
-    <!-- 孩子选择器 -->
+  <!-- 孩子选择器 -->
     <view class="child-selector" bindtap="onChildSwitch">
       <view class="child-icon-wrap">
         <text class="child-icon">{{currentChild.avatar}}</text>
@@ -81,7 +75,6 @@
       <text>积分项目不合适？</text>
       <text class="tip-link">去调整 →</text>
     </view>
-  </block>
 
   <!-- 等级选择弹窗 -->
   <view class="grade-modal-mask" wx:if="{{showGradeModal}}" bindtap="onModalClose">

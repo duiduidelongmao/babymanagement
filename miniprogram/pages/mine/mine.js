@@ -18,6 +18,11 @@ Page({
 
   onShow() {
     this.loadData()
+    const app = getApp()
+    if (!this.data.loggedIn && app.globalData.autoShowLogin) {
+      app.globalData.autoShowLogin = false
+      this.onLogin()
+    }
   },
 
   loadData() {
@@ -88,7 +93,7 @@ Page({
   },
 
   onGoProfile() {
-    if (!this.data.loggedIn) return
+    if (!this.data.loggedIn) { this.onLogin(); return }
     wx.navigateTo({ url: '/pages/profile/profile' })
   },
 

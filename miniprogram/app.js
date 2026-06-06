@@ -28,6 +28,7 @@ App({
 
   globalData: {
     currentChildId: null,
-    pendingInviteCode: ''
+    pendingInviteCode: '',
+    autoShowLogin: false
   }
 })

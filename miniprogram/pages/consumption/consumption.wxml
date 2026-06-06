@@ -1,14 +1,8 @@
 <view class="container">
-  <!-- 未登录提示 -->
-  <view class="login-required" wx:if="{{!loggedIn}}">
-    <view class="login-required-icon">🔒</view>
-    <view class="login-required-text">请先登录使用积分商城</view>
-    <view class="login-required-btn" bindtap="onGoLogin">去登录</view>
-  </view>
+  <!-- 未登录点击拦截层 -->
+  <view class="login-mask" wx:if="{{!loggedIn}}" catchtap="onLoginTap"></view>
 
-  <!-- 已登录内容 -->
-  <block wx:if="{{loggedIn}}">
-    <!-- 页面标题 -->
+  <!-- 页面标题 -->
     <view class="page-header">
       <view class="page-title">积分商城</view>
     </view>
@@ -75,5 +69,4 @@
         </view>
       </view>
     </view>
-  </block>
 </view>

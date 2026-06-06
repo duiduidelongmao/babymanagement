@@ -19,18 +19,45 @@ Page({
 
   onShow() {
     this.setData({ loggedIn: isLoggedIn() })
-    if (!this.data.loggedIn) return
     this.loadData()
+  },
+
+  requireLogin(callback) {
+    if (!isLoggedIn()) {
+      const app = getApp()
+      app.globalData.autoShowLogin = true
+      wx.switchTab({ url: '/pages/mine/mine' })
+      return
+    }
+    callback()
   },
 
   onGoLogin() {
     wx.switchTab({ url: '/pages/mine/mine' })
   },
 
+  onLoginTap() {
+    const app = getApp()
+    app.globalData.autoShowLogin = true
+    wx.switchTab({ url: '/pages/mine/mine' })
+  },
+
   loadData() {
     const children = getChildren()
     const currentChild = getCurrentChild()
-    if (!currentChild) return
+
+    if (!currentChild) {
+      this.setData({
+        currentChild: { name: '宝贝', avatar: '🧒', totalPoints: 0 },
+        children,
+        recordDate: '',
+        habitItems: [],
+        todayRecords: [],
+        todayIncome: 0,
+        todayExpense: 0
+      })
+      return
+    }
 
     // 同步到全局，确保首次加载和跨页面一致
     const app = getApp()
@@ -74,45 +101,53 @@ Page({
   },
 
   onChildSwitch() {
-    const children = this.data.children
-    if (children.length <= 1) return
-    wx.showActionSheet({
-      itemList: children.map(c => c.name),
-      success: (res) => {
-        setCurrentChildId(children[res.tapIndex].id)
-        this.loadData()
-      }
+    this.requireLogin(() => {
+      const children = this.data.children
+      if (children.length <= 1) return
+      wx.showActionSheet({
+        itemList: children.map(c => c.name),
+        success: (res) => {
+          setCurrentChildId(children[res.tapIndex].id)
+          this.loadData()
+        }
+      })
     })
   },
 
   // 点击"自由计分"按钮 → 跳转到自由计分录入页
   onFreeScoring() {
-    wx.navigateTo({ url: '/pages/free-scoring/free-scoring' })
+    this.requireLogin(() => {
+      wx.navigateTo({ url: '/pages/free-scoring/free-scoring' })
+    })
   },
 
   // 点击"快速计分"按钮 → 跳转到快速计分详情页
   onQuickScoring() {
-    wx.navigateTo({ url: '/pages/quick-scoring/quick-scoring' })
+    this.requireLogin(() => {
+      wx.navigateTo({ url: '/pages/quick-scoring/quick-scoring' })
+    })
   },
 
   // 点击项目 → 弹出等级选择弹窗
   onItemTap(e) {
-    const item = e.currentTarget.dataset.item
-    const todayRecords = this.data.todayRecords
-    const existing = todayRecords.find(r => r.itemId === item.id)
-    const g = item.grades || {}
-    // 展开 grades 为扁平字段，供 WXML 模板使用（WXML 不支持 grades['A+'] 语法）
-    const modalItem = {
-      ...item,
-      gradeAPlus: { label: (g['A'] && g['A'].label) || '优秀', score: (g['A'] && g['A'].score) || 0 },
-      gradeA:     { label: (g['B']  && g['B'].label)  || '完成', score: (g['B']  && g['B'].score)  || 0 },
-      gradeB:     { label: (g['C']  && g['C'].label)  || '不合格', score: (g['C']  && g['C'].score)  || 0 },
-      gradeD:     { label: (g['D']  && g['D'].label)  || '未完成', score: (g['D']  && g['D'].score)  || 0 }
-    }
-    this.setData({
-      showGradeModal: true,
-      modalItem: modalItem,
-      modalSelectedGrade: existing ? existing.grade : ''
+    this.requireLogin(() => {
+      const item = e.currentTarget.dataset.item
+      const todayRecords = this.data.todayRecords
+      const existing = todayRecords.find(r => r.itemId === item.id)
+      const g = item.grades || {}
+      // 展开 grades 为扁平字段，供 WXML 模板使用（WXML 不支持 grades['A+'] 语法）
+      const modalItem = {
+        ...item,
+        gradeAPlus: { label: (g['A'] && g['A'].label) || '优秀', score: (g['A'] && g['A'].score) || 0 },
+        gradeA:     { label: (g['B']  && g['B'].label)  || '完成', score: (g['B']  && g['B'].score)  || 0 },
+        gradeB:     { label: (g['C']  && g['C'].label)  || '不合格', score: (g['C']  && g['C'].score)  || 0 },
+        gradeD:     { label: (g['D']  && g['D'].label)  || '未完成', score: (g['D']  && g['D'].score)  || 0 }
+      }
+      this.setData({
+        showGradeModal: true,
+        modalItem: modalItem,
+        modalSelectedGrade: existing ? existing.grade : ''
+      })
     })
   },
 
@@ -144,14 +179,20 @@ Page({
   preventBubble() {},
 
   onGoRules() {
-    wx.navigateTo({ url: '/pages/plan-detail/plan-detail' })
+    this.requireLogin(() => {
+      wx.navigateTo({ url: '/pages/plan-detail/plan-detail' })
+    })
   },
 
   onGoIncome() {
-    wx.navigateTo({ url: '/pages/income-detail/income-detail' })
+    this.requireLogin(() => {
+      wx.navigateTo({ url: '/pages/income-detail/income-detail' })
+    })
   },
 
   onGoExpense() {
-    wx.navigateTo({ url: '/pages/expense-detail/expense-detail' })
+    this.requireLogin(() => {
+      wx.navigateTo({ url: '/pages/expense-detail/expense-detail' })
+    })
   }
 })
