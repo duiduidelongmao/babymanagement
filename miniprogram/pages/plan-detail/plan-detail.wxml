@@ -1,0 +1,72 @@
+<view class="container">
+  <!-- Tab 切换 -->
+  <view class="tab-bar card">
+    <view class="tab-item {{currentTab === 'my' ? 'active' : ''}}" bindtap="onTabChange" data-tab="my">我的规则</view>
+    <view class="tab-item {{currentTab === 'tpl' ? 'active' : ''}}" bindtap="onTabChange" data-tab="tpl">模板库</view>
+  </view>
+
+  <!-- 我的规则 -->
+  <view class="tab-content" wx:if="{{currentTab === 'my'}}">
+    <block wx:if="{{plans.length > 0}}">
+      <view class="rule-card card" wx:for="{{plans}}" wx:key="id">
+        <view class="rule-header">
+          <view class="rule-icon">{{item.icon}}</view>
+          <view class="rule-info">
+            <view class="rule-name-row">
+              <text class="rule-name">{{item.name}}</text>
+              <view class="rule-status {{item.isActive ? 'active' : 'inactive'}}">{{item.isActive ? '当前生效' : '未生效'}}</view>
+            </view>
+            <view class="rule-desc">{{item.description}}</view>
+          </view>
+          <view class="rule-toggle">
+            <switch checked="{{item.isActive}}" bindchange="onToggleActive" data-id="{{item.id}}" color="#FF8C00" />
+          </view>
+        </view>
+        <view class="rule-footer">
+          <view class="rule-count">
+            <text class="count-icon">✦</text>
+            <text>共 {{item.items.length}} 个细项</text>
+          </view>
+          <view class="rule-actions">
+            <view class="rule-detail" bindtap="onViewPlan" data-id="{{item.id}}">
+              <text>查看详情</text>
+              <text class="arrow">›</text>
+            </view>
+            <view class="rule-delete" bindtap="onDeletePlan" data-id="{{item.id}}">删除</view>
+          </view>
+        </view>
+      </view>
+    </block>
+    <view class="empty-state card" wx:else>
+      <view class="empty-icon">📋</view>
+      <text>暂无规则方案</text>
+    </view>
+    <view class="create-btn" bindtap="onCreatePlan">+ 新建规则方案</view>
+  </view>
+
+  <!-- 模板库 -->
+  <view class="tab-content" wx:if="{{currentTab === 'tpl'}}">
+    <block wx:if="{{templates.length > 0}}">
+      <view class="tpl-card card" wx:for="{{templates}}" wx:key="id">
+        <view class="tpl-header">
+          <view class="tpl-icon">{{item.icon}}</view>
+          <view class="tpl-info">
+            <view class="tpl-name-row">
+              <text class="tpl-name">{{item.name}}</text>
+              <view class="tpl-count">{{item.items.length}} 条</view>
+            </view>
+            <view class="tpl-desc">{{item.description}}</view>
+            <view class="tpl-tags">
+              <view class="tpl-tag" wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this">{{tag}}</view>
+            </view>
+          </view>
+        </view>
+        <view class="tpl-footer">
+          <view class="tpl-action" bindtap="onViewTemplate" data-id="{{item.id}}">查看详情</view>
+          <view class="tpl-action tpl-primary" wx:if="{{!item.isAdded}}" bindtap="onUseTemplate" data-id="{{item.id}}">使用模板</view>
+          <view class="tpl-action tpl-added" wx:if="{{item.isAdded}}">已加入</view>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

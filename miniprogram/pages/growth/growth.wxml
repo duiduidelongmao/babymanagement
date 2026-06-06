@@ -1,0 +1,164 @@
+<view class="container">
+  <!-- 未登录提示 -->
+  <view class="login-required" wx:if="{{!loggedIn}}">
+    <view class="login-required-icon">🔒</view>
+    <view class="login-required-text">请先登录查看成长数据</view>
+    <view class="login-required-btn" bindtap="onGoLogin">去登录</view>
+  </view>
+
+  <!-- 已登录内容 -->
+  <block wx:if="{{loggedIn}}">
+    <!-- 页面标题 -->
+    <view class="page-header">
+      <view class="child-selector" bindtap="onChildSwitch">
+        <view class="child-icon-wrap">
+          <text class="child-icon">{{currentChildAvatar}}</text>
+        </view>
+        <view class="child-name">
+          <text class="name-text">{{currentChildName || '成长概览'}}</text>
+          <text class="child-arrow" wx:if="{{childrenCount > 1}}">▼</text>
+        </view>
+      </view>
+      <view class="join-family-btn" bindtap="onShowJoinModal">加入家庭</view>
+    </view>
+    <view class="date-range">{{dateRange}}</view>
+
+    <!-- 时间筛选器 -->
+    <scroll-view class="time-filter" scroll-x="true">
+      <view class="filter-item {{currentRange === '7d' ? 'active' : ''}}" bindtap="onRangeChange" data-range="7d">近7天</view>
+      <view class="filter-item {{currentRange === '30d' ? 'active' : ''}}" bindtap="onRangeChange" data-range="30d">近30天</view>
+      <view class="filter-item {{currentRange === '90d' ? 'active' : ''}}" bindtap="onRangeChange" data-range="90d">近90天</view>
+      <view class="filter-item {{currentRange === 'half' ? 'active' : ''}}" bindtap="onRangeChange" data-range="half">近半年</view>
+      <view class="filter-item {{currentRange === 'year' ? 'active' : ''}}" bindtap="onRangeChange" data-range="year">近一年</view>
+    </scroll-view>
+
+    <!-- 净值趋势图卡片 -->
+    <view class="trend-card card">
+      <view class="trend-label">净值趋势</view>
+      <image src="{{trendSvg}}" class="trend-canvas" mode="scaleToFill" key="{{trendSvgKey}}"></image>
+    </view>
+
+    <!-- 净值指标卡 -->
+    <view class="net-value-card card">
+      <view class="net-label">净值</view>
+      <view class="net-row-three">
+        <view class="net-col net-col-main" bindtap="onGoIncome">
+          <view class="net-col-label">净值</view>
+          <view class="net-col-value {{stats.netValue >= 0 ? 'positive' : 'negative'}} net-col-value-large">
+            {{stats.netValue >= 0 ? '+' : ''}}{{stats.netValue}}
+          </view>
+        </view>
+        <view class="net-col-divider"></view>
+        <view class="net-col" bindtap="onGoIncome">
+          <view class="net-col-label">收入</view>
+          <view class="net-col-value positive">+{{stats.income}}</view>
+        </view>
+        <view class="net-col-divider"></view>
+        <view class="net-col" bindtap="onGoExpense">
+          <view class="net-col-label">支出</view>
+          <view class="net-col-value negative">-{{stats.expense}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 数据视图 Tab -->
+    <view class="data-tabs">
+      <view class="data-tab {{currentView === 'category' ? 'active' : ''}}" bindtap="onViewChange" data-view="category">分类累计</view>
+      <view class="data-tab {{currentView === 'grade' ? 'active' : ''}}" bindtap="onViewChange" data-view="grade">评分统计</view>
+      <view class="data-tab {{currentView === 'daily' ? 'active' : ''}}" bindtap="onViewChange" data-view="daily">每日变化</view>
+    </view>
+
+    <!-- 分类累计 -->
+    <view class="data-content" wx:if="{{currentView === 'category'}}">
+      <block wx:if="{{categoryList.length > 0}}">
+        <view class="category-card card" wx:for="{{categoryList}}" wx:key="name" bindtap="onCategoryTap" data-name="{{item.name}}">
+          <view class="category-card-main">
+            <view class="category-card-info">
+              <view class="category-name">{{item.name}}</view>
+              <view class="category-bar-row">
+                <view class="category-bar-bg">
+                  <view class="category-bar" style="width: {{item.barWidth}}%; background: #4CAF50;"></view>
+                </view>
+              </view>
+              <view class="category-values">
+                <text class="val-positive">+{{item.income}}</text>
+                <text class="val-negative">-{{item.expense}}</text>
+                <text class="val-count">{{item.count}}次</text>
+              </view>
+            </view>
+            <view class="category-arrow">›</view>
+          </view>
+        </view>
+      </block>
+      <view class="empty-state card" wx:else>
+        <view class="empty-icon">📊</view>
+        <text>暂无数据</text>
+      </view>
+    </view>
+
+    <!-- 评分统计 -->
+    <view class="data-content" wx:if="{{currentView === 'grade'}}">
+      <block wx:if="{{gradeList.length > 0}}">
+        <view class="grade-card card" wx:for="{{gradeList}}" wx:key="grade" bindtap="onGradeTap" data-grade="{{item.grade}}">
+          <view class="grade-card-main">
+            <view class="grade-card-left">
+              <view class="grade-stat-badge grade-{{item.gradeClass}}">
+                <text class="grade-stat-letter">{{item.grade}}</text>
+              </view>
+              <view class="grade-card-info">
+                <view class="grade-bar-bg">
+                  <view class="grade-bar" style="width: {{item.barWidth}}%; background: {{item.color}};"></view>
+                </view>
+                <view class="grade-count">{{item.count}}次</view>
+              </view>
+            </view>
+            <view class="grade-arrow">›</view>
+          </view>
+        </view>
+      </block>
+      <view class="empty-state card" wx:else>
+        <view class="empty-icon">📊</view>
+        <text>暂无数据</text>
+      </view>
+    </view>
+
+    <!-- 每日变化 -->
+    <view class="data-content" wx:if="{{currentView === 'daily'}}">
+      <block wx:if="{{dailyList.length > 0}}">
+        <view class="daily-item card" wx:for="{{dailyList}}" wx:key="date" bindtap="onDailyTap" data-date="{{item.date}}">
+          <view class="daily-header">
+            <view class="daily-date">{{item.dateStr}}</view>
+            <view class="daily-net {{item.net >= 0 ? 'positive' : 'negative'}}">
+              {{item.net >= 0 ? '+' : ''}}{{item.net}} ›
+            </view>
+          </view>
+          <view class="daily-bars">
+            <view class="daily-bar income-bar">
+              <text>收入 {{item.income >= 0 ? '+' : ''}}{{item.income}}</text>
+            </view>
+            <view class="daily-bar expense-bar">
+              <text>支出 -{{item.expense}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+      <view class="empty-state card" wx:else>
+        <view class="empty-icon">📊</view>
+        <text>暂无数据</text>
+      </view>
+    </view>
+  </block>
+</view>
+
+<!-- 输入邀请码弹窗 -->
+<view class="join-mask {{showJoinModal ? 'show' : ''}}" bindtap="onCloseJoinModal">
+  <view class="join-popup" catchtap="preventBubble">
+    <view class="join-title">加入家庭</view>
+    <view class="join-subtitle">请输入家人分享的邀请码</view>
+    <input class="join-input" placeholder="例如：A1B2C3D4" value="{{inputInviteCode}}" bindinput="onJoinCodeInput" maxlength="8" />
+    <view class="join-actions">
+      <view class="join-btn-cancel" bindtap="onCloseJoinModal">取消</view>
+      <view class="join-btn-confirm" bindtap="onConfirmJoin">确认加入</view>
+    </view>
+  </view>
+</view>

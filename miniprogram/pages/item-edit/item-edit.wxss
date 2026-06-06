@@ -1,0 +1,54 @@
+.freq-options { display: flex; gap: 16rpx; margin-bottom: 16rpx; }
+.freq-item {
+  padding: 12rpx 32rpx;
+  border-radius: 24rpx;
+  font-size: 26rpx;
+  background: #F5F5F5;
+  color: #666666;
+}
+.freq-item.active { background: #FFF3E0; color: #FF8C00; font-weight: 600; }
+
+.weekday-row { display: flex; gap: 12rpx; }
+.weekday-item {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  background: #F5F5F5;
+  color: #666666;
+}
+.weekday-item.checked { background: #FF8C00; color: #ffffff; }
+
+.grade-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 16rpx;
+}
+
+.grade-label {
+  width: 160rpx;
+  padding: 12rpx 16rpx;
+  border-radius: 12rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+  text-align: center;
+}
+
+.grade-a-plus-bg { background: #E8F5E9; color: #4CAF50; }
+.grade-a-bg { background: #E3F2FD; color: #2196F3; }
+.grade-b-bg { background: #FFF8E1; color: #FF9800; }
+.grade-d-bg { background: #FFEBEE; color: #F44336; }
+
+.grade-input {
+  flex: 1;
+  background: #F5F5F5;
+  border-radius: 12rpx;
+  padding: 16rpx;
+  font-size: 28rpx;
+}
+
+.grade-unit { font-size: 26rpx; color: #999999; }

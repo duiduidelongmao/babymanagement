@@ -1,0 +1,45 @@
+<view class="container">
+  <view class="policy-header">
+    <view class="policy-title">本产品隐私政策</view>
+    <view class="policy-date">更新日期：2026年5月8日</view>
+  </view>
+
+  <view class="policy-intro">
+    本政策说明本产品在提供积分记录、规则管理、奖励兑换等服务时如何处理必要信息。
+  </view>
+
+  <view class="policy-section">
+    <view class="section-title">我们会处理的信息</view>
+    <view class="section-paragraph">账号昵称、头像等个人资料。</view>
+    <view class="section-paragraph">孩子账套名称、头像、积分余额、规则方案、积分记录与奖励兑换记录。</view>
+    <view class="section-paragraph">微信小程序登录所需的账号标识，用于识别同一用户的数据。</view>
+  </view>
+
+  <view class="policy-section">
+    <view class="section-title">信息使用方式</view>
+    <view class="section-paragraph">用于展示积分、记录行为、管理规则和同步账号数据。</view>
+    <view class="section-paragraph">用于保障服务稳定运行、排查异常和恢复必要数据。</view>
+    <view class="section-paragraph">不会将家庭积分记录用于广告投放或出售给第三方。</view>
+  </view>
+
+  <view class="policy-section">
+    <view class="section-title">保存与同步</view>
+    <view class="section-paragraph">数据默认实时保存，登录同一账号后可继续使用对应账套。</view>
+    <view class="section-paragraph">删除孩子账套、规则、奖励或记录后，相关数据会按操作结果同步更新。</view>
+    <view class="section-paragraph">因法律法规或平台安全要求必须保留的记录，会在必要期限内保存。</view>
+  </view>
+
+  <view class="policy-section">
+    <view class="section-title">第三方服务</view>
+    <view class="section-paragraph">微信登录、云开发和消息能力由微信小程序平台提供。</view>
+    <view class="section-paragraph">相关能力仅用于账号登录、数据存储和小程序运行。</view>
+    <view class="section-paragraph">接入新的第三方服务时，会在本政策或产品页面中更新说明。</view>
+  </view>
+
+  <view class="policy-section">
+    <view class="section-title">你的权利</view>
+    <view class="section-paragraph">可在个人中心修改头像、昵称和孩子信息。</view>
+    <view class="section-paragraph">可编辑或删除积分规则、奖励、积分记录等业务数据。</view>
+    <view class="section-paragraph">如需进一步处理账号数据，可通过帮助中心提交反馈。</view>
+  </view>
+</view>

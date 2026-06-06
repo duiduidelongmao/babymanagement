@@ -1,0 +1,68 @@
+{
+  "pages": [
+    "pages/growth/growth",
+    "pages/scoring/scoring",
+    "pages/consumption/consumption",
+    "pages/mine/mine",
+    "pages/plan-detail/plan-detail",
+    "pages/plan-create/plan-create",
+    "pages/item-edit/item-edit",
+    "pages/reward-add/reward-add",
+    "pages/child-manage/child-manage",
+    "pages/family-share/family-share",
+    "pages/consumption-detail/consumption-detail",
+    "pages/profile/profile",
+    "pages/quick-scoring/quick-scoring",
+    "pages/free-scoring/free-scoring",
+    "pages/income-detail/income-detail",
+    "pages/expense-detail/expense-detail",
+    "pages/plan-view/plan-view",
+    "pages/help-center/help-center",
+    "pages/help-detail/help-detail",
+    "pages/user-agreement/user-agreement",
+    "pages/privacy-policy/privacy-policy",
+    "pages/category-detail/category-detail"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "成长积分",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f5f5f5"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#FF8C00",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/growth/growth",
+        "text": "成长",
+        "iconPath": "images/tab-growth.png",
+        "selectedIconPath": "images/tab-growth-active.png"
+      },
+      {
+        "pagePath": "pages/scoring/scoring",
+        "text": "计分",
+        "iconPath": "images/tab-scoring.png",
+        "selectedIconPath": "images/tab-scoring-active.png"
+      },
+      {
+        "pagePath": "pages/consumption/consumption",
+        "text": "消耗",
+        "iconPath": "images/tab-consumption.png",
+        "selectedIconPath": "images/tab-consumption-active.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "images/tab-mine.png",
+        "selectedIconPath": "images/tab-mine-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

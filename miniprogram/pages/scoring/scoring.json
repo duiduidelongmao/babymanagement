@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "计分",
+  "usingComponents": {
+    "scoring-popup": "../../components/scoring-popup/scoring-popup"
+  }
+}

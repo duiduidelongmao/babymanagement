@@ -1,0 +1,63 @@
+.child-list { margin-bottom: 24rpx; }
+.child-item { display: flex; align-items: center; padding: 24rpx 28rpx; margin-bottom: 12rpx; }
+.child-avatar { font-size: 56rpx; width: 80rpx; height: 80rpx; display: flex; align-items: center; justify-content: center; background: #FFF5EB; border-radius: 50%; margin-right: 20rpx; }
+.child-info { flex: 1; }
+.child-name { font-size: 30rpx; font-weight: 600; color: #333333; }
+.child-points { font-size: 22rpx; color: #999999; margin-top: 4rpx; }
+.child-actions { display: flex; gap: 16rpx; }
+.action-edit, .action-delete { font-size: 24rpx; padding: 8rpx 20rpx; border-radius: 16rpx; }
+.action-edit { background: #E3F2FD; color: #2196F3; }
+.action-delete { background: #FFEBEE; color: #F44336; }
+
+.add-child-btn {
+  text-align: center;
+  padding: 28rpx 0;
+  color: #FF8C00;
+  font-size: 30rpx;
+  font-weight: 600;
+  background: #ffffff;
+  border-radius: 24rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
+}
+
+.form-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+.form-mask.show { opacity: 1; visibility: visible; }
+
+.form-popup {
+  width: 600rpx;
+  background: #ffffff;
+  border-radius: 32rpx;
+  padding: 40rpx 32rpx;
+  transform: scale(0.8);
+  transition: all 0.3s ease;
+}
+.form-popup.show { transform: scale(1); }
+
+.form-title { text-align: center; font-size: 36rpx; font-weight: 700; color: #333333; margin-bottom: 32rpx; }
+.form-group { margin-bottom: 24rpx; }
+.form-label { font-size: 28rpx; font-weight: 600; color: #333333; margin-bottom: 12rpx; }
+.form-input { background: #F5F5F5; border-radius: 16rpx; padding: 24rpx; font-size: 28rpx; }
+
+.avatar-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16rpx; }
+.avatar-option {
+  width: 72rpx; height: 72rpx;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 40rpx; border-radius: 50%;
+  background: #F5F5F5; border: 3rpx solid transparent;
+}
+.avatar-option.selected { border-color: #FF8C00; background: #FFF3E0; }
+
+.form-actions { display: flex; gap: 20rpx; margin-top: 32rpx; }
+.btn-cancel { flex: 1; text-align: center; padding: 24rpx 0; border-radius: 44rpx; font-size: 28rpx; font-weight: 600; background: #F5F5F5; color: #666666; }
+.btn-save { flex: 1; text-align: center; padding: 24rpx 0; border-radius: 44rpx; font-size: 28rpx; font-weight: 600; background: linear-gradient(135deg, #FF9500, #FF8C00); color: #ffffff; }

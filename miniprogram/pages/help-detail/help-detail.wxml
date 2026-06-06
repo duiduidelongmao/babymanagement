@@ -1,0 +1,102 @@
+<view class="container">
+  <!-- 顶部标签 -->
+  <view class="detail-header">
+    <view class="detail-tag">新手说明</view>
+  </view>
+
+  <!-- 先记住一句话 -->
+  <view class="highlight-card card">
+    <view class="highlight-title">先记住一句话</view>
+    <view class="highlight-text">孩子是账套，方案是一套规则，规则是一个个积分项目。首页计分时，用的是当前孩子账套里的当前方案。</view>
+  </view>
+
+  <!-- 如何使用方案 -->
+  <view class="section-title">如何使用方案</view>
+  <view class="step-list">
+    <view class="step-item card">
+      <view class="step-icon">📚</view>
+      <view class="step-body">
+        <view class="step-label">第 1 步</view>
+        <view class="step-title">选一个方案</view>
+        <view class="step-desc">方案就是一整套规则。可以先用模板，也可以自己新建。</view>
+      </view>
+    </view>
+    <view class="step-item card">
+      <view class="step-icon">✅</view>
+      <view class="step-body">
+        <view class="step-label">第 2 步</view>
+        <view class="step-title">设为当前方案</view>
+        <view class="step-desc">当前方案会出现在首页，家长按这些项目给孩子计分。</view>
+      </view>
+    </view>
+    <view class="step-item card">
+      <view class="step-icon">🏠</view>
+      <view class="step-body">
+        <view class="step-label">第 3 步</view>
+        <view class="step-title">回首页计分</view>
+        <view class="step-desc">点某个积分项目，选完成情况，积分就进入孩子账套。</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 如何创建规则 -->
+  <view class="section-title">如何创建规则</view>
+  <view class="step-list">
+    <view class="step-item card">
+      <view class="step-icon">➕</view>
+      <view class="step-body">
+        <view class="step-title">先新建方案</view>
+        <view class="step-desc">比如"上学日规则""假期规则"，一个方案放一组同场景规则。</view>
+      </view>
+    </view>
+    <view class="step-item card">
+      <view class="step-icon">☑️</view>
+      <view class="step-body">
+        <view class="step-title">再新增细项</view>
+        <view class="step-desc">细项就是一个具体积分项目，比如完成作业、整理房间。</view>
+      </view>
+    </view>
+    <view class="step-item card">
+      <view class="step-icon">4️⃣</view>
+      <view class="step-body">
+        <view class="step-title">写清四档分值</view>
+        <view class="step-desc">优秀、完成、不合格、未完成各给多少分，直接填数字。</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 方案、规则、账套的关系 -->
+  <view class="section-title">方案、规则、账套的关系</view>
+  <view class="relation-card card">
+    <view class="relation-flow">
+      <view class="relation-node">
+        <view class="relation-emoji">👧</view>
+        <view class="relation-name">账套</view>
+      </view>
+      <view class="relation-arrow">→</view>
+      <view class="relation-node">
+        <view class="relation-emoji">📦</view>
+        <view class="relation-name">方案</view>
+      </view>
+      <view class="relation-arrow">→</view>
+      <view class="relation-node">
+        <view class="relation-emoji">📝</view>
+        <view class="relation-name">规则</view>
+      </view>
+    </view>
+    <view class="relation-desc-list">
+      <view class="relation-desc-item">
+        <text class="relation-keyword">账套：</text>
+        <text>一个孩子一个账套。积分、记录、奖励都存在这个孩子名下。</text>
+      </view>
+      <view class="relation-desc-item">
+        <text class="relation-keyword">方案：</text>
+        <text>一个账套可以有多个方案，但只有一个当前方案用于首页计分。</text>
+      </view>
+      <view class="relation-desc-item">
+        <text class="relation-keyword">规则：</text>
+        <text>一个方案里有多个规则。每条规则就是首页的一个积分项目。</text>
+      </view>
+    </view>
+  </view>
+</view>

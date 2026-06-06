@@ -1,0 +1,79 @@
+<view class="container">
+  <!-- 未登录提示 -->
+  <view class="login-required" wx:if="{{!loggedIn}}">
+    <view class="login-required-icon">🔒</view>
+    <view class="login-required-text">请先登录使用积分商城</view>
+    <view class="login-required-btn" bindtap="onGoLogin">去登录</view>
+  </view>
+
+  <!-- 已登录内容 -->
+  <block wx:if="{{loggedIn}}">
+    <!-- 页面标题 -->
+    <view class="page-header">
+      <view class="page-title">积分商城</view>
+    </view>
+
+    <!-- 积分汇总 -->
+    <view class="points-card card">
+      <view class="points-main">
+        <text class="points-label">可用积分</text>
+        <text class="points-value">{{currentChild.totalPoints || 0}}</text>
+      </view>
+      <view class="points-spent">
+        <text class="spent-text">本月消耗</text>
+        <text class="spent-value">-{{monthConsumption}}</text>
+        <text class="spent-link" bindtap="onViewDetail">查看明细 ></text>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-row">
+      <view class="action-btn action-add" bindtap="onAddReward">+ 添加奖励</view>
+      <view class="action-btn action-deduct" bindtap="onQuickDeduct">快速扣减</view>
+    </view>
+
+    <!-- 奖励列表 -->
+    <view class="reward-grid">
+      <view class="reward-card card" wx:for="{{rewards}}" wx:key="id">
+        <view class="reward-manage">
+          <text class="manage-btn" catchtap="onEditReward" data-id="{{item.id}}">编辑</text>
+          <text class="manage-btn manage-delete" catchtap="onDeleteReward" data-id="{{item.id}}">删除</text>
+        </view>
+        <view class="reward-icon">{{item.icon}}</view>
+        <view class="reward-name">{{item.name}}</view>
+        <view class="reward-desc">{{item.description}}</view>
+        <view class="reward-pts">{{item.points}} 分</view>
+        <view class="redeem-btn" bindtap="onRedeem" data-reward="{{item}}">兑换</view>
+      </view>
+    </view>
+
+    <!-- 快速扣减弹窗 -->
+    <view class="deduct-mask {{showDeduct ? 'show' : ''}}" bindtap="onDeductCancel">
+      <view class="deduct-popup {{showDeduct ? 'show' : ''}}" catchtap="preventBubble">
+        <view class="deduct-title">快速扣减</view>
+
+        <view class="deduct-field">
+          <text class="deduct-label">扣减日期</text>
+          <picker mode="date" value="{{deductDate}}" bindchange="onDeductDateChange">
+            <view class="deduct-date-picker">{{deductDate}}</view>
+          </picker>
+        </view>
+
+        <view class="deduct-field">
+          <text class="deduct-label">扣减积分</text>
+          <input class="deduct-input" type="number" placeholder="输入扣减积分" value="{{deductPoints}}" bindinput="onDeductPointsInput" />
+        </view>
+
+        <view class="deduct-field">
+          <text class="deduct-label">备注</text>
+          <input class="deduct-input" placeholder="选填" value="{{deductNote}}" bindinput="onDeductNoteInput" />
+        </view>
+
+        <view class="deduct-actions">
+          <view class="deduct-btn cancel" bindtap="onDeductCancel">取消</view>
+          <view class="deduct-btn confirm" bindtap="onDeductConfirm">确认扣减</view>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

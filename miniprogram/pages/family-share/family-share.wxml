@@ -1,0 +1,77 @@
+<view class="container">
+  <!-- 家庭信息卡片 -->
+  <view class="family-card card">
+    <view class="family-header">
+      <view class="family-avatar">{{familyName.charAt(0)}}</view>
+      <view class="family-info">
+        <view class="family-name">{{familyName}}</view>
+        <view class="family-count">{{members.length}} 位成员</view>
+      </view>
+      <view class="family-edit" bindtap="onEditFamilyName">编辑名称</view>
+    </view>
+    <view class="family-desc">邀请家人一起查看管理孩子积分成长记录。</view>
+    <view class="invite-btns">
+      <view class="invite-btn-primary" bindtap="onSendInvite">发送邀请</view>
+    </view>
+  </view>
+
+  <!-- 家庭成员 -->
+  <view class="section-title">家庭成员</view>
+  <view class="member-list">
+    <view class="member-item card" wx:for="{{members}}" wx:key="id">
+      <image class="member-avatar-img" src="{{item.avatar || '/images/default-avatar.png'}}" mode="aspectFill" wx:if="{{item.avatar}}"></image>
+      <view class="member-avatar-default" wx:else>{{item.name ? item.name.charAt(0) : '👤'}}</view>
+      <view class="member-info">
+        <view class="member-name">{{item.name}}</view>
+        <view class="member-tags">
+          <view class="member-tag tag-orange" wx:if="{{item.role === 'admin'}}">管理员</view>
+          <view class="member-tag tag-blue" bindtap="onEditNickname" data-id="{{item.id}}" data-nickname="{{item.nickname}}">{{item.nickname || '成员'}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 修改称呼弹窗 -->
+<view class="nickname-mask {{showNicknameModal ? 'show' : ''}}" bindtap="onCloseNicknameModal">
+  <view class="nickname-popup" catchtap="preventBubble">
+    <view class="nickname-title">修改成员称呼</view>
+    <view class="nickname-preset">
+      <view class="preset-item {{selectedNickname === item ? 'active' : ''}}" wx:for="{{presetNicknames}}" wx:key="*this" data-name="{{item}}" bindtap="onSelectPreset">{{item}}</view>
+    </view>
+    <input class="nickname-input" placeholder="自定义称呼" value="{{inputNickname}}" bindinput="onNicknameInput" />
+    <view class="nickname-actions">
+      <view class="btn-cancel" bindtap="onCloseNicknameModal">取消</view>
+      <view class="btn-confirm" bindtap="onConfirmNickname">完成</view>
+    </view>
+  </view>
+</view>
+
+<!-- 编辑家庭名称弹窗 -->
+<view class="nickname-mask {{showNameModal ? 'show' : ''}}" bindtap="onCloseNameModal">
+  <view class="nickname-popup" catchtap="preventBubble">
+    <view class="nickname-title">编辑家庭名称</view>
+    <input class="nickname-input" placeholder="输入家庭名称" value="{{inputFamilyName}}" bindinput="onFamilyNameInput" />
+    <view class="nickname-actions">
+      <view class="btn-cancel" bindtap="onCloseNameModal">取消</view>
+      <view class="btn-confirm" bindtap="onConfirmFamilyName">完成</view>
+    </view>
+  </view>
+</view>
+
+<!-- 邀请码弹窗 -->
+<view class="poster-mask {{showPosterModal ? 'show' : ''}}" bindtap="onClosePosterModal">
+  <view class="poster-popup" catchtap="preventBubble">
+    <view class="poster-close" bindtap="onClosePosterModal">×</view>
+    <view class="invite-code-wrap">
+      <view class="invite-code-title">家庭邀请码</view>
+      <view class="invite-code-subtitle">将邀请码分享给家人，对方输入即可加入</view>
+      <view class="invite-code-box" wx:if="{{inviteCode}}">
+        <view class="invite-code-value">{{inviteCode}}</view>
+        <view class="invite-code-copy" bindtap="onCopyCode">复制</view>
+      </view>
+      <view class="invite-code-loading" wx:else>邀请码生成中...</view>
+      <view class="invite-code-hint">有效期7天，可重复使用</view>
+    </view>
+  </view>
+</view>

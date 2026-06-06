@@ -1,0 +1,32 @@
+<view class="habit-card card" bindtap="onTap">
+  <view class="habit-top">
+    <view class="habit-icon">{{item.icon}}</view>
+    <view class="habit-info">
+      <view class="habit-name">{{item.name}}</view>
+      <view class="habit-freq">{{frequency}}</view>
+    </view>
+    <view class="habit-actions" catchtap="preventBubble">
+      <view class="action-btn" catchtap="onEdit">✏️</view>
+      <view class="action-btn action-delete" catchtap="onDelete">✕</view>
+    </view>
+  </view>
+  <view class="habit-desc">{{item.description}}</view>
+  <view class="habit-grades">
+    <view class="grade-tag grade-a-plus">
+      <text>A {{gradeAPlus.label}}</text>
+      <text class="grade-pts">+{{gradeAPlus.score}}</text>
+    </view>
+    <view class="grade-tag grade-a">
+      <text>B {{gradeA.label}}</text>
+      <text class="grade-pts">+{{gradeA.score}}</text>
+    </view>
+    <view class="grade-tag grade-b">
+      <text>C {{gradeB.label}}</text>
+      <text class="grade-pts">{{gradeB.score}}</text>
+    </view>
+    <view class="grade-tag grade-d">
+      <text>D {{gradeD.label}}</text>
+      <text class="grade-pts">{{gradeD.score}}</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,73 @@
+<view class="container">
+  <!-- 名称 -->
+  <view class="form-group">
+    <view class="form-label">习惯名称</view>
+    <input class="form-input" placeholder="例如：完成作业" value="{{name}}" bindinput="onNameInput" />
+  </view>
+
+  <!-- 图标 -->
+  <view class="form-group">
+    <view class="form-label">选择图标</view>
+    <view class="icon-grid">
+      <view class="icon-item {{selectedIcon === item ? 'selected' : ''}}"
+        wx:for="{{iconList}}" wx:key="*this" wx:for-item="item"
+        bindtap="onIconSelect" data-icon="{{item}}">
+        {{item}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 频率 -->
+  <view class="form-group">
+    <view class="form-label">执行频率</view>
+    <view class="freq-options">
+      <view class="freq-item {{frequency === '每天' ? 'active' : ''}}" bindtap="onFreqChange" data-freq="每天">每天</view>
+      <view class="freq-item {{frequency !== '每天' ? 'active' : ''}}" bindtap="onFreqChange" data-freq="custom">自定义</view>
+    </view>
+    <view class="weekday-row" wx:if="{{frequency !== '每天'}}">
+      <view class="weekday-item {{weekdayChecked[index] ? 'checked' : ''}}"
+        wx:for="{{weekdayNames}}" wx:key="*this" wx:for-item="day"
+        bindtap="onWeekdayToggle" data-index="{{index}}">
+        {{day}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 描述 -->
+  <view class="form-group">
+    <view class="form-label">描述</view>
+    <input class="form-input" placeholder="例如：按时完成当天作业" value="{{description}}" bindinput="onDescInput" />
+  </view>
+
+  <!-- 评分标准 -->
+  <view class="form-group">
+    <view class="form-label">评分标准</view>
+
+    <view class="grade-row">
+      <view class="grade-label grade-a-plus-bg">A 优秀</view>
+      <input class="grade-input" type="number" value="{{gradeAPlus.score}}" bindinput="onGradeInput" data-grade="A" />
+      <text class="grade-unit">分</text>
+    </view>
+    <view class="grade-row">
+      <view class="grade-label grade-a-bg">B 完成</view>
+      <input class="grade-input" type="number" value="{{gradeA.score}}" bindinput="onGradeInput" data-grade="B" />
+      <text class="grade-unit">分</text>
+    </view>
+    <view class="grade-row">
+      <view class="grade-label grade-b-bg">C 不合格</view>
+      <input class="grade-input" type="number" value="{{gradeB.score}}" bindinput="onGradeInput" data-grade="C" />
+      <text class="grade-unit">分</text>
+    </view>
+    <view class="grade-row">
+      <view class="grade-label grade-d-bg">D 未完成</view>
+      <input class="grade-input" type="number" value="{{gradeD.score}}" bindinput="onGradeInput" data-grade="D" />
+      <text class="grade-unit">分</text>
+    </view>
+  </view>
+
+  <!-- 保存 -->
+  <view class="form-actions">
+    <view class="btn-cancel" bindtap="onCancel">取消</view>
+    <view class="btn-save" bindtap="onSave">保存</view>
+  </view>
+</view>

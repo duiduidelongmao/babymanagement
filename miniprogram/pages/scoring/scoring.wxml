@@ -1,0 +1,139 @@
+<view class="container">
+  <!-- 未登录提示 -->
+  <view class="login-required" wx:if="{{!loggedIn}}">
+    <view class="login-required-icon">🔒</view>
+    <view class="login-required-text">请先登录开始计分</view>
+    <view class="login-required-btn" bindtap="onGoLogin">去登录</view>
+  </view>
+
+  <!-- 已登录 -->
+  <block wx:if="{{loggedIn}}">
+    <!-- 孩子选择器 -->
+    <view class="child-selector" bindtap="onChildSwitch">
+      <view class="child-icon-wrap">
+        <text class="child-icon">{{currentChild.avatar}}</text>
+      </view>
+      <view class="child-name">
+        <text class="name-text">{{currentChild.name}}</text>
+      </view>
+      <view class="child-arrow" wx:if="{{children.length > 1}}">▼</view>
+    </view>
+
+    <!-- 记录日期 -->
+    <view class="date-card card">
+      <text class="date-label">记录日期</text>
+      <text class="date-value">{{recordDate}}</text>
+    </view>
+
+    <!-- 当前积分 -->
+    <view class="points-card card">
+      <view class="points-label">当前积分</view>
+      <view class="points-value">{{currentChild.totalPoints}}<text class="points-unit">分</text></view>
+    </view>
+
+    <!-- 今日收入/支出 -->
+    <view class="today-stats card">
+      <view class="today-stat-item" bindtap="onGoIncome">
+        <view class="today-stat-dot income-dot"></view>
+        <view class="today-stat-info">
+          <text class="today-stat-label">今日收入</text>
+          <text class="today-stat-value positive">+{{todayIncome}}</text>
+        </view>
+      </view>
+      <view class="today-stat-divider"></view>
+      <view class="today-stat-item" bindtap="onGoExpense">
+        <view class="today-stat-dot expense-dot"></view>
+        <view class="today-stat-info">
+          <text class="today-stat-label">今日支出</text>
+          <text class="today-stat-value negative">-{{todayExpense}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 计分入口按钮 -->
+    <view class="entry-row">
+      <view class="entry-btn entry-free" bindtap="onFreeScoring">
+        <text class="entry-icon">🔄</text>
+        <text class="entry-text">自由计分</text>
+      </view>
+      <view class="entry-btn entry-quick" bindtap="onQuickScoring">
+        <text class="entry-icon">⚡</text>
+        <text class="entry-text">快速计分</text>
+      </view>
+    </view>
+
+    <!-- 项目列表 -->
+    <view class="habit-list">
+      <view class="habit-item card {{item.scored ? 'scored' : ''}}" wx:for="{{habitItems}}" wx:key="id" bindtap="onItemTap" data-item="{{item}}">
+        <view class="habit-icon-small">{{item.icon}}</view>
+        <view class="habit-info">
+          <view class="habit-name">{{item.name}}</view>
+          <view class="habit-desc">{{item.description}}</view>
+        </view>
+        <view class="habit-right">
+          <view class="habit-grade {{item.gradeClass}}" wx:if="{{item.scoredGrade}}">{{item.scoredGrade}}</view>
+          <view class="habit-pts {{item.gradeClass}}">{{item.displayScore >= 0 ? '+' : ''}}{{item.displayScore}}分</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="list-tip" bindtap="onGoRules">
+      <text>积分项目不合适？</text>
+      <text class="tip-link">去调整 →</text>
+    </view>
+  </block>
+
+  <!-- 等级选择弹窗 -->
+  <view class="grade-modal-mask" wx:if="{{showGradeModal}}" bindtap="onModalClose">
+    <view class="grade-modal" catchtap="preventBubble">
+      <!-- 弹窗头部 -->
+      <view class="modal-header">
+        <view class="modal-icon">{{modalItem.icon}}</view>
+        <view class="modal-title">{{modalItem.name}}</view>
+        <view class="modal-desc">{{modalItem.description}}</view>
+      </view>
+
+      <!-- 等级卡片网格 -->
+      <view class="grade-grid">
+        <view class="grade-card grade-a-plus {{modalSelectedGrade === 'A' ? 'selected' : ''}}" bindtap="onModalGradeSelect" data-grade="A">
+          <view class="grade-card-top">
+            <text class="grade-card-letter">A</text>
+            <view class="grade-card-menu">☰</view>
+          </view>
+          <text class="grade-card-label">{{modalItem.gradeAPlus.label}}</text>
+          <text class="grade-card-score">{{modalItem.gradeAPlus.score >= 0 ? '+' : ''}}{{modalItem.gradeAPlus.score}}分</text>
+        </view>
+        <view class="grade-card grade-a {{modalSelectedGrade === 'B' ? 'selected' : ''}}" bindtap="onModalGradeSelect" data-grade="B">
+          <view class="grade-card-top">
+            <text class="grade-card-letter">B</text>
+            <view class="grade-card-menu">☰</view>
+          </view>
+          <text class="grade-card-label">{{modalItem.gradeA.label}}</text>
+          <text class="grade-card-score">{{modalItem.gradeA.score >= 0 ? '+' : ''}}{{modalItem.gradeA.score}}分</text>
+        </view>
+        <view class="grade-card grade-b {{modalSelectedGrade === 'C' ? 'selected' : ''}}" bindtap="onModalGradeSelect" data-grade="C">
+          <view class="grade-card-top">
+            <text class="grade-card-letter">C</text>
+            <view class="grade-card-menu">☰</view>
+          </view>
+          <text class="grade-card-label">{{modalItem.gradeB.label}}</text>
+          <text class="grade-card-score">{{modalItem.gradeB.score >= 0 ? '+' : ''}}{{modalItem.gradeB.score}}分</text>
+        </view>
+        <view class="grade-card grade-d {{modalSelectedGrade === 'D' ? 'selected' : ''}}" bindtap="onModalGradeSelect" data-grade="D">
+          <view class="grade-card-top">
+            <text class="grade-card-letter">D</text>
+            <view class="grade-card-menu">☰</view>
+          </view>
+          <text class="grade-card-label">{{modalItem.gradeD.label}}</text>
+          <text class="grade-card-score">{{modalItem.gradeD.score >= 0 ? '+' : ''}}{{modalItem.gradeD.score}}分</text>
+        </view>
+      </view>
+
+      <!-- 弹窗底部提示 -->
+      <view class="modal-tip">
+        <text class="modal-tip-icon">ⓘ</text>
+        <text class="modal-tip-text">点击等级卡即可按默认分值快速计分；点击微调或长按等级卡可临时修改本次得分。</text>
+      </view>
+    </view>
+  </view>
+</view>

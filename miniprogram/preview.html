@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>成长积分 - 预览</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.phone-frame {
+  width: 375px;
+  height: 812px;
+  background: linear-gradient(180deg, #FFF5EB 0%, #F5F5F5 30%);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(0,0,0,0.15);
+  border-radius: 40px;
+  border: 8px solid #333;
+}
+
+.status-bar {
+  height: 44px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.page-content {
+  height: calc(100% - 44px - 70px);
+  overflow-y: auto;
+  padding: 12px 16px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.page-content::-webkit-scrollbar { display: none; }
+
+/* Tab Bar */
+.tab-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: #fff;
+  display: flex;
+  border-top: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  color: #999;
+  font-size: 10px;
+  transition: color 0.2s;
+}
+
+.tab-item.active { color: #FF8C00; }
+
+.tab-icon { font-size: 24px; }
+
+/* Pages hidden by default */
+.page { display: none; }
+.page.active { display: block; }
+
+/* Common */
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.page-title { font-size: 28px; font-weight: 800; color: #333; margin-bottom: 4px; }
+.btn-primary {
+  background: linear-gradient(135deg, #FF9500, #FF8C00);
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Login Required (shared) */
+.login-required {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 120px;
+}
+.login-required-icon { font-size: 56px; margin-bottom: 16px; }
+.login-required-text { font-size: 16px; color: #999; margin-bottom: 24px; }
+.login-required-btn {
+  padding: 12px 40px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #FF9500, #FF8C00);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+/* ===== Login Modal ===== */
+.modal-mask {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+.modal-mask.show { opacity: 1; visibility: visible; }
+.modal-popup {
+  width: 310px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px 22px;
+  transform: scale(0.8);
+  transition: all 0.3s;
+}
+.modal-mask.show .modal-popup { transform: scale(1); }
+.modal-title { text-align: center; font-size: 20px; font-weight: 700; color: #333; margin-bottom: 6px; }
+.modal-desc { text-align: center; font-size: 13px; color: #999; margin-bottom: 24px; }
+
+.login-avatar-section { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; }
+.login-avatar-btn {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: #F5F5F5; border: 2px dashed #ccc;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; overflow: hidden; transition: border-color 0.2s;
+}
+.login-avatar-btn:hover { border-color: #FF8C00; }
+.login-avatar-btn img { width: 100%; height: 100%; object-fit: cover; }
+.login-avatar-btn span { font-size: 36px; }
+.login-avatar-hint { font-size: 12px; color: #FF8C00; margin-top: 6px; }
+
+.login-nickname-section {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 0; border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 16px;
+}
+.login-field-label { font-size: 15px; font-weight: 600; color: #333; width: 50px; flex-shrink: 0; }
+.login-nickname-input {
+  flex: 1; font-size: 15px; border: none; outline: none;
+  padding: 4px 0; color: #333; background: transparent;
+}
+
+.modal-actions { display: flex; gap: 12px; margin-top: 20px; }
+.modal-cancel {
+  flex: 1; text-align: center; padding: 12px 0;
+  border-radius: 24px; font-size: 15px; font-weight: 600;
+  background: #F5F5F5; color: #666; cursor: pointer;
+}
+.modal-confirm {
+  flex: 1; text-align: center; padding: 12px 0;
+  border-radius: 24px; font-size: 15px; font-weight: 600;
+  background: linear-gradient(135deg, #FF9500, #FF8C00);
+  color: #fff; cursor: pointer;
+}
+
+/* ===== Profile Page (overlay) ===== */
+.profile-page {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(180deg, #FFF5EB 0%, #F5F5F5 30%);
+  z-index: 50;
+  display: none;
+  flex-direction: column;
+}
+.profile-page.show { display: flex; }
+.profile-nav {
+  height: 44px; display: flex; align-items: center; padding: 0 16px;
+  background: #fff; border-bottom: 1px solid #f0f0f0;
+}
+.profile-back { font-size: 20px; cursor: pointer; padding: 4px 8px; color: #333; }
+.profile-nav-title { flex: 1; text-align: center; font-size: 17px; font-weight: 600; margin-right: 36px; }
+
+.profile-body { flex: 1; overflow-y: auto; padding: 20px 16px; }
+
+.profile-avatar-section { display: flex; flex-direction: column; align-items: center; margin-bottom: 24px; }
+.profile-avatar-display {
+  width: 88px; height: 88px; border-radius: 50%;
+  border: 3px solid #FF8C00; overflow: hidden;
+  cursor: pointer; background: #FFF5EB;
+  display: flex; align-items: center; justify-content: center;
+}
+.profile-avatar-display img { width: 100%; height: 100%; object-fit: cover; }
+.profile-avatar-display span { font-size: 52px; }
+.profile-avatar-hint { font-size: 12px; color: #FF8C00; margin-top: 8px; }
+
+.profile-info-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px; margin-bottom: 8px; background: #fff;
+  border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.profile-info-label { font-size: 15px; font-weight: 600; color: #333; }
+.profile-info-value { font-size: 14px; color: #999; }
+.profile-info-input {
+  flex: 1; text-align: right; font-size: 15px;
+  border: none; outline: none; color: #666; background: transparent;
+}
+
+.logout-section { margin-top: 40px; }
+.logout-btn {
+  text-align: center; padding: 14px 0; border-radius: 24px;
+  font-size: 16px; font-weight: 600; color: #F44336; background: #FFEBEE;
+  cursor: pointer;
+}
+
+/* ===== 成长页面 ===== */
+.date-range { font-size: 13px; color: #999; margin-bottom: 10px; }
+
+.time-filter {
+  display: flex; gap: 8px; margin-bottom: 12px;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+}
+.time-filter::-webkit-scrollbar { display: none; }
+.filter-item {
+  padding: 6px 16px; border-radius: 16px; font-size: 13px;
+  color: #666; background: #fff; white-space: nowrap;
+  cursor: pointer; flex-shrink: 0;
+}
+.filter-item.active { background: #FF8C00; color: #fff; font-weight: 600; }
+
+.net-value-card { background: #FFF8F0; }
+.net-label { font-size: 13px; color: #999; margin-bottom: 8px; }
+.net-progress { margin-bottom: 8px; }
+.progress-track { height: 4px; background: #E0E0E0; border-radius: 2px; position: relative; }
+.progress-fill { height: 100%; background: #4CAF50; border-radius: 2px; width: 50%; }
+.progress-dot { width: 12px; height: 12px; background: #4CAF50; border-radius: 50%; position: absolute; right: -6px; top: -4px; border: 2px solid #fff; }
+.net-value { font-size: 36px; font-weight: 800; color: #4CAF50; margin-bottom: 12px; }
+.net-value.negative { color: #F44336; }
+.net-row { display: flex; align-items: center; justify-content: center; gap: 24px; }
+.net-item { text-align: center; flex: 1; }
+.net-item-label { font-size: 12px; color: #999; margin-bottom: 4px; }
+.net-item-value { font-size: 18px; font-weight: 700; }
+.positive { color: #4CAF50; }
+.negative { color: #F44336; }
+.net-divider { width: 1px; height: 36px; background: #E0E0E0; }
+
+.data-tabs { display: flex; background: #fff; border-radius: 12px; padding: 3px; margin-bottom: 12px; }
+.data-tab { flex: 1; text-align: center; padding: 8px 0; font-size: 13px; color: #999; border-radius: 10px; cursor: pointer; }
+.data-tab.active { background: #fff; color: #333; font-weight: 600; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+
+.empty-state { text-align: center; padding: 40px 0; color: #999; font-size: 14px; }
+.empty-icon { font-size: 40px; margin-bottom: 8px; }
+
+/* ===== 计分页面 ===== */
+.child-selector { display: flex; align-items: center; margin-bottom: 12px; cursor: pointer; }
+.child-icon-wrap { width: 40px; height: 40px; border-radius: 50%; background: #FFF5EB; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-right: 10px; }
+.child-name-text { font-size: 20px; font-weight: 700; color: #FF8C00; }
+.child-name-label { font-size: 16px; color: #FF8C00; }
+.child-arrow { font-size: 12px; color: #FF8C00; margin-left: 4px; }
+
+.points-summary { padding: 18px; margin-bottom: 12px; }
+.summary-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.summary-label { display: flex; align-items: center; gap: 4px; font-size: 14px; color: #999; }
+.summary-value { font-size: 28px; font-weight: 800; }
+.summary-detail { display: flex; gap: 24px; }
+.detail-item { display: flex; align-items: center; gap: 4px; }
+.detail-dot { width: 6px; height: 6px; border-radius: 50%; }
+.detail-dot.green { background: #4CAF50; }
+.detail-dot.red { background: #F44336; }
+.detail-label { font-size: 13px; color: #999; }
+.detail-value { font-size: 15px; font-weight: 600; }
+
+.entry-row { display: flex; gap: 10px; margin-bottom: 14px; }
+.entry-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 12px 0; border-radius: 14px; font-size: 15px; font-weight: 600; cursor: pointer; }
+.entry-free { background: #E8F5E9; border: 1px solid #4CAF50; color: #4CAF50; }
+.entry-quick { background: #FFF3E0; border: 1px solid #FF8C00; color: #FF8C00; }
+
+.overlay-page { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #f5f5f5; z-index: 100; overflow-y: auto; }
+.overlay-header { display: flex; align-items: center; padding: 14px 16px; background: #fff; border-bottom: 1px solid #f0f0f0; }
+.overlay-back { font-size: 16px; color: #FF8C00; cursor: pointer; padding-right: 16px; }
+.overlay-title { font-size: 18px; font-weight: 700; color: #333; }
+.overlay-body { padding: 12px 16px; padding-bottom: 80px; }
+
+/* 等级选择弹窗 */
+.grade-modal-mask { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.grade-modal { background: #ffffff; border-radius: 24px; padding: 28px 24px; width: 100%; max-width: 400px; }
+.modal-header { text-align: center; margin-bottom: 20px; }
+.modal-icon { font-size: 36px; margin-bottom: 4px; }
+.modal-title { font-size: 22px; font-weight: 700; color: #333; margin-bottom: 4px; }
+.modal-desc { font-size: 14px; color: #999; }
+.grade-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.grade-card { border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 2px; cursor: pointer; }
+.grade-card-top { display: flex; align-items: flex-start; justify-content: space-between; }
+.grade-card-letter { font-size: 28px; font-weight: 800; }
+.grade-card-menu { width: 28px; height: 28px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #999; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.grade-card-label { font-size: 14px; color: #666; }
+.grade-card-score { font-size: 16px; font-weight: 700; }
+.grade-card.grade-a-plus { background: #E8F5E9; }
+.grade-card.grade-a-plus .grade-card-letter { color: #4CAF50; }
+.grade-card.grade-a-plus .grade-card-score { color: #4CAF50; }
+.grade-card.grade-a { background: #E3F2FD; }
+.grade-card.grade-a .grade-card-letter { color: #2196F3; }
+.grade-card.grade-a .grade-card-score { color: #2196F3; }
+.grade-card.grade-b { background: #FFF8E1; }
+.grade-card.grade-b .grade-card-letter { color: #FF9800; }
+.grade-card.grade-b .grade-card-score { color: #FF9800; }
+.grade-card.grade-d { background: #FFEBEE; }
+.grade-card.grade-d .grade-card-letter { color: #F44336; }
+.grade-card.grade-d .grade-card-score { color: #F44336; }
+.modal-tip { display: flex; align-items: flex-start; gap: 8px; padding: 10px 14px; background: #FFF8F0; border-radius: 10px; }
+.modal-tip-icon { font-size: 16px; color: #FF8C00; flex-shrink: 0; }
+.modal-tip-text { font-size: 12px; color: #999; line-height: 1.5; }
+
+/* 已打分状态 */
+.habit-item.scored { background: #FFF8F0 !important; border: 1px solid #FFE0B2; }
+.habit-grade-tag { padding: 2px 8px; border-radius: 4px; background: #4CAF50; color: #fff; font-size: 11px; font-weight: 600; margin-right: 6px; }
+.habit-right { display: flex; align-items: center; }
+
+.habit-item { display: flex; align-items: center; padding: 14px; margin-bottom: 8px; cursor: pointer; }
+.habit-item:active { background: #fafafa; }
+.habit-icon-sm, .habit-icon-small { font-size: 24px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: #FFF5EB; border-radius: 10px; margin-right: 10px; }
+.habit-info { flex: 1; }
+.habit-name { font-size: 16px; font-weight: 600; color: #333; }
+.habit-desc { font-size: 12px; color: #999; }
+.habit-pts { font-size: 15px; font-weight: 700; color: #FF8C00; }
+
+.list-tip { text-align: center; padding: 12px 0; font-size: 14px; color: #999; cursor: pointer; }
+.tip-link { color: #FF8C00; font-weight: 500; }
+
+/* 评分弹窗 */
+.scoring-mask {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: all 0.3s;
+}
+.scoring-mask.show { opacity: 1; visibility: visible; }
+.scoring-popup {
+  width: 310px; background: #fff; border-radius: 20px;
+  padding: 24px 18px; transform: scale(0.8); transition: all 0.3s;
+}
+.scoring-mask.show .scoring-popup { transform: scale(1); }
+.popup-header { text-align: center; margin-bottom: 18px; }
+.popup-icon { font-size: 36px; }
+.popup-title { font-size: 20px; font-weight: 700; }
+.popup-desc { font-size: 13px; color: #999; }
+.grade-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.grade-card { border-radius: 14px; padding: 16px 12px; text-align: center; cursor: pointer; transition: transform 0.15s; }
+.grade-card:active { transform: scale(0.95); }
+.grade-a-plus { background: #E8F5E9; }
+.grade-a { background: #E3F2FD; }
+.grade-b { background: #FFF8E1; }
+.grade-d { background: #FFEBEE; }
+.grade-letter { font-size: 26px; font-weight: 800; margin-bottom: 2px; }
+.grade-a-plus .grade-letter { color: #4CAF50; }
+.grade-a .grade-letter { color: #2196F3; }
+.grade-b .grade-letter { color: #FF9800; }
+.grade-d .grade-letter { color: #F44336; }
+.grade-label-text { font-size: 13px; color: #666; margin-bottom: 4px; }
+.grade-score { font-size: 15px; font-weight: 700; }
+.grade-a-plus .grade-score { color: #4CAF50; }
+.grade-a .grade-score { color: #2196F3; }
+.grade-b .grade-score { color: #FF9800; }
+.grade-d .grade-score { color: #F44336; }
+.popup-tip { display: flex; align-items: flex-start; gap: 4px; background: #FFF8E1; border-radius: 10px; padding: 10px 12px; font-size: 12px; color: #999; line-height: 1.5; }
+
+/* ===== 消耗页面 ===== */
+.points-card { padding: 18px; margin-bottom: 12px; }
+.points-main { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.points-label { font-size: 15px; color: #999; }
+.points-value { font-size: 32px; font-weight: 800; color: #FF8C00; }
+.points-spent { display: flex; align-items: center; gap: 8px; background: #FFF8F0; padding: 10px 14px; border-radius: 10px; }
+.spent-text { font-size: 13px; color: #999; }
+.spent-val { font-size: 15px; font-weight: 700; color: #F44336; }
+.spent-link { font-size: 13px; color: #FF8C00; margin-left: auto; cursor: pointer; }
+
+.action-row { display: flex; gap: 10px; margin-bottom: 12px; }
+.action-btn { flex: 1; text-align: center; padding: 12px 0; border-radius: 24px; font-size: 15px; font-weight: 600; cursor: pointer; }
+.action-add { background: #fff; border: 2px solid #FF8C00; color: #FF8C00; }
+.action-deduct { background: linear-gradient(135deg, #FF9500, #FF8C00); color: #fff; }
+
+.reward-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.reward-card { padding: 14px; text-align: center; }
+.reward-icon { font-size: 32px; margin-bottom: 4px; }
+.reward-name { font-size: 15px; font-weight: 600; color: #333; }
+.reward-desc { font-size: 11px; color: #999; margin-bottom: 4px; }
+.reward-pts { font-size: 15px; font-weight: 700; color: #FF8C00; margin-bottom: 8px; }
+.redeem-btn { display: inline-flex; padding: 4px 18px; border: 1.5px solid #FF8C00; border-radius: 14px; font-size: 13px; color: #FF8C00; cursor: pointer; }
+.redeem-btn:active { background: #FFF3E0; }
+
+/* ===== 我的页面 ===== */
+.profile-section { display: flex; align-items: center; margin-bottom: 14px; cursor: pointer; }
+.profile-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: #FFF5EB; display: flex; align-items: center;
+  justify-content: center; font-size: 36px; margin-right: 14px;
+  overflow: hidden; border: 2px dashed #ccc;
+}
+.profile-avatar.logged-in { border: 2px solid #FF8C00; }
+.profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.profile-name { font-size: 20px; font-weight: 700; }
+.profile-join { font-size: 13px; color: #999; margin-top: 2px; }
+.profile-join.login-tip { color: #FF8C00; }
+.profile-arrow { margin-left: auto; font-size: 18px; color: #ccc; }
+
+.login-prompt {
+  display: flex; align-items: center; gap: 8px;
+  padding: 16px; margin-bottom: 16px;
+}
+
+.stats-card { display: flex; align-items: center; padding: 16px 18px; }
+.stats-item { flex: 1; display: flex; align-items: center; gap: 8px; }
+.stats-icon { font-size: 22px; }
+.stats-val { font-size: 20px; font-weight: 700; }
+.stats-lbl { font-size: 12px; color: #999; }
+.stats-div { width: 1px; height: 36px; background: #f0f0f0; }
+
+.section-title { font-size: 14px; color: #666; font-weight: 600; margin-bottom: 8px; padding-left: 2px; }
+.section { margin-bottom: 20px; }
+.menu-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; margin-bottom: 6px; cursor: pointer; }
+.menu-left { display: flex; align-items: center; gap: 10px; flex: 1; }
+.menu-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; background: #FFF3E0; }
+.menu-title { font-size: 16px; font-weight: 500; color: #333; }
+.menu-sub { font-size: 12px; color: #999; }
+.menu-arrow { font-size: 18px; color: #ccc; }
+.menu-right { display: flex; align-items: center; gap: 8px; }
+.invite-btn { background: #4CAF50; color: #fff; font-size: 12px; padding: 3px 12px; border-radius: 10px; }
+
+/* Toast */
+.toast {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  z-index: 200;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; }
+
+/* Avatar picker modal */
+.avatar-picker-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;
+  margin-bottom: 16px;
+}
+.avatar-option {
+  width: 48px; height: 48px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; cursor: pointer; border: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+.avatar-option:hover, .avatar-option.selected { border-color: #FF8C00; }
+
+/* ===== 快速计分 ===== */
+.quick-actions { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; }
+.quick-action-btn { padding: 6px 14px; border-radius: 14px; font-size: 12px; font-weight: 500; color: #666; background: #F5F5F5; white-space: nowrap; flex-shrink: 0; cursor: pointer; }
+.quick-action-btn.reset { color: #F44336; }
+
+.scoring-item { background: #fff; border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+.scoring-item-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.scoring-item-icon { width: 32px; height: 32px; border-radius: 10px; background: #FFF5EB; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.scoring-item-name { font-size: 15px; font-weight: 600; color: #333; }
+
+.grade-row { display: flex; gap: 6px; }
+.grade-btn { flex: 1; padding: 10px 4px; border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.2s; }
+.grade-btn.grade-aplus { background: #E8F5E9; color: #4CAF50; }
+.grade-btn.grade-a { background: #E3F2FD; color: #2196F3; }
+.grade-btn.grade-b { background: #FFF8E1; color: #FF9800; }
+.grade-btn.grade-d { background: #FFEBEE; color: #F44336; }
+.grade-btn.selected.grade-aplus { background: #4CAF50; color: #fff; transform: scale(1.05); }
+.grade-btn.selected.grade-a { background: #2196F3; color: #fff; transform: scale(1.05); }
+.grade-btn.selected.grade-b { background: #FF9800; color: #fff; transform: scale(1.05); }
+.grade-btn.selected.grade-d { background: #F44336; color: #fff; transform: scale(1.05); }
+.grade-letter { font-size: 14px; font-weight: 700; display: block; }
+.grade-label-text { font-size: 10px; display: block; }
+.grade-btn.selected .grade-label-text { color: #fff; }
+.grade-score-text { font-size: 11px; font-weight: 600; display: block; }
+.grade-btn.selected .grade-score-text { color: #fff; }
+
+.scoring-footer { position: absolute; bottom: 70px; left: 0; right: 0; background: #fff; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 -4px 12px rgba(0,0,0,0.08); z-index: 10; }
+.footer-stats { display: flex; align-items: center; gap: 4px; }
+.footer-stat-label { font-size: 13px; color: #666; }
+.footer-stat-count { font-size: 14px; font-weight: 700; color: #333; }
+.footer-stat-total { font-size: 14px; font-weight: 800; }
+.footer-stat-total.positive { color: #4CAF50; }
+.footer-stat-total.negative { color: #F44336; }
+
+.save-btn { padding: 10px 24px; border-radius: 24px; background: linear-gradient(135deg, #FF9500, #FF8C00); color: #fff; font-size: 15px; font-weight: 700; cursor: pointer; }
+
+/* 自由计分 */
+.free-item { display: flex; align-items: center; padding: 14px 16px; margin-bottom: 8px; background: #fff; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); cursor: pointer; }
+.free-item:active { background: #fafafa; }
+.free-item-icon { font-size: 24px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: #FFF5EB; border-radius: 10px; margin-right: 10px; }
+.free-item-info { flex: 1; }
+.free-item-name { font-size: 16px; font-weight: 600; color: #333; }
+.free-item-desc { font-size: 12px; color: #999; }
+.free-item-pts { font-size: 15px; font-weight: 700; color: #FF8C00; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<div class="phone-frame">
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span>中国联通</span>
+    <span>17:28</span>
+    <span>72%</span>
+  </div>
+
+  <!-- Page Content -->
+  <div class="page-content">
+
+    <!-- 成长页面 -->
+    <div class="page active" id="page-growth">
+      <!-- 未登录 -->
+      <div class="login-required" id="growth-login" style="display:none;">
+        <div class="login-required-icon">🔒</div>
+        <div class="login-required-text">请先登录查看成长数据</div>
+        <button class="login-required-btn" onclick="switchTab(3)">去登录</button>
+      </div>
+      <!-- 已登录 -->
+      <div id="growth-content">
+        <div class="page-title">成长概览</div>
+        <div class="date-range" id="dateRange">2026-05-28 - 2026-06-03</div>
+
+        <div class="time-filter">
+          <div class="filter-item active" onclick="setRange(this)">近7天</div>
+          <div class="filter-item" onclick="setRange(this)">近30天</div>
+          <div class="filter-item" onclick="setRange(this)">近90天</div>
+          <div class="filter-item" onclick="setRange(this)">近半年</div>
+          <div class="filter-item" onclick="setRange(this)">近一年</div>
+        </div>
+
+        <div class="net-value-card card">
+          <div class="net-label">净值</div>
+          <div class="net-progress">
+            <div class="progress-track">
+              <div class="progress-fill" id="progressFill"></div>
+              <div class="progress-dot"></div>
+            </div>
+          </div>
+          <div class="net-value" id="netValue">+0</div>
+          <div class="net-row">
+            <div class="net-item">
+              <div class="net-item-label">收入</div>
+              <div class="net-item-value positive" id="incomeVal">+0</div>
+            </div>
+            <div class="net-divider"></div>
+            <div class="net-item">
+              <div class="net-item-label">支出</div>
+              <div class="net-item-value negative" id="expenseVal">-0</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-tabs">
+          <div class="data-tab active" onclick="setDataView(this)">分类累计</div>
+          <div class="data-tab" onclick="setDataView(this)">评分统计</div>
+          <div class="data-tab" onclick="setDataView(this)">每日变化</div>
+        </div>
+
+        <div class="card" id="dataContent">
+          <div class="empty-state">
+            <div class="empty-icon">📊</div>
+            <div>暂无数据</div>
+            <div style="font-size:12px;margin-top:4px;">完成评分后这里将展示成长数据</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 计分页面 -->
+    <div class="page" id="page-scoring">
+      <!-- 未登录 -->
+      <div class="login-required" id="scoring-login" style="display:none;">
+        <div class="login-required-icon">🔒</div>
+        <div class="login-required-text">请先登录开始计分</div>
+        <button class="login-required-btn" onclick="switchTab(3)">去登录</button>
+      </div>
+      <!-- 已登录 -->
+      <div id="scoring-content">
+        <div class="child-selector">
+          <div class="child-icon-wrap">🧒</div>
+          <div>
+            <span class="child-name-text" id="childNameDisplay">王小明</span>
+            <span class="child-name-label">积分</span>
+          </div>
+          <div class="child-arrow">▼</div>
+        </div>
+
+        <!-- 记录日期 -->
+        <div class="card" style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;margin-bottom:12px;">
+          <span style="font-size:13px;color:#999;">记录日期</span>
+          <span style="font-size:14px;color:#FF8C00;font-weight:600;" id="recordDate">2026-06-04</span>
+        </div>
+
+        <!-- 计分入口按钮 -->
+        <div class="entry-row">
+          <div class="entry-btn entry-free" onclick="openFreeScoring()">🔄 自由计分</div>
+          <div class="entry-btn entry-quick" onclick="openQuickScoring()">⚡ 快速计分</div>
+        </div>
+
+        <!-- 项目列表 -->
+        <div id="habitList"></div>
+
+        <div class="list-tip">
+          <span>积分项目不合适？</span>
+          <span class="tip-link" onclick="showToast('请在小程序中调整积分方案')">去调整 →</span>
+        </div>
+      </div>
+
+      <!-- 等级选择弹窗 -->
+      <div class="grade-modal-mask" id="gradeModalMask" style="display:none;" onclick="closeGradeModal()">
+        <div class="grade-modal" onclick="event.stopPropagation()">
+          <div class="modal-header">
+            <div class="modal-icon" id="modalItemIcon">✏️</div>
+            <div class="modal-title" id="modalItemName">完成作业</div>
+            <div class="modal-desc" id="modalItemDesc">按时完成当天作业</div>
+          </div>
+          <div class="grade-grid">
+            <div class="grade-card grade-a-plus" id="modalCardAPlus" onclick="onModalGradeSelect('A+')">
+              <div class="grade-card-top"><span class="grade-card-letter">A+</span><div class="grade-card-menu">☰</div></div>
+              <span class="grade-card-label" id="modalLabelAPlus">优秀</span>
+              <span class="grade-card-score" id="modalScoreAPlus">+10分</span>
+            </div>
+            <div class="grade-card grade-a" id="modalCardA" onclick="onModalGradeSelect('A')">
+              <div class="grade-card-top"><span class="grade-card-letter">A</span><div class="grade-card-menu">☰</div></div>
+              <span class="grade-card-label" id="modalLabelA">完成</span>
+              <span class="grade-card-score" id="modalScoreA">+6分</span>
+            </div>
+            <div class="grade-card grade-b" id="modalCardB" onclick="onModalGradeSelect('B')">
+              <div class="grade-card-top"><span class="grade-card-letter">B</span><div class="grade-card-menu">☰</div></div>
+              <span class="grade-card-label" id="modalLabelB">不合格</span>
+              <span class="grade-card-score" id="modalScoreB">0分</span>
+            </div>
+            <div class="grade-card grade-d" id="modalCardD" onclick="onModalGradeSelect('D')">
+              <div class="grade-card-top"><span class="grade-card-letter">D</span><div class="grade-card-menu">☰</div></div>
+              <span class="grade-card-label" id="modalLabelD">未完成</span>
+              <span class="grade-card-score" id="modalScoreD">-4分</span>
+            </div>
+          </div>
+          <div class="modal-tip">
+            <span class="modal-tip-icon">ⓘ</span>
+            <span class="modal-tip-text">点击等级卡即可按默认分值快速计分；点击微调或长按等级卡可临时修改本次得分。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 快速计分详情页（覆盖层） -->
+    <div class="overlay-page" id="quickScoringOverlay" style="display:none;">
+      <div class="overlay-header">
+        <span class="overlay-back" onclick="closeQuickScoring()">← 返回</span>
+        <span class="overlay-title">快速计分</span>
+      </div>
+      <div class="overlay-body">
+        <div class="card" style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;margin-bottom:12px;">
+          <span style="font-size:13px;color:#999;">记录日期</span>
+          <span style="font-size:14px;color:#FF8C00;font-weight:600;" id="qsRecordDate">2026-06-04</span>
+        </div>
+        <div class="quick-actions">
+          <div class="quick-action-btn" onclick="setAllGrade('A+')">全部 A+</div>
+          <div class="quick-action-btn" onclick="setAllGrade('A')">全部 A</div>
+          <div class="quick-action-btn" onclick="setAllGrade('B')">全部 B</div>
+          <div class="quick-action-btn" onclick="setAllGrade('D')">全部 D</div>
+          <div class="quick-action-btn reset" onclick="resetAll()">重置</div>
+        </div>
+        <div id="scoringGroup"></div>
+      </div>
+      <div class="scoring-footer">
+        <div class="footer-stats">
+          <span class="footer-stat-label">已选</span>
+          <span class="footer-stat-count" id="selectedCount">0</span>
+          <span class="footer-stat-label">项，合计</span>
+          <span class="footer-stat-total" id="totalScoreDisplay">+0</span>
+        </div>
+        <div class="save-btn" onclick="saveRecord()">保存记录</div>
+      </div>
+    </div>
+
+    <!-- 消耗页面 -->
+    <div class="page" id="page-consumption">
+      <!-- 未登录 -->
+      <div class="login-required" id="consumption-login" style="display:none;">
+        <div class="login-required-icon">🔒</div>
+        <div class="login-required-text">请先登录使用积分商城</div>
+        <button class="login-required-btn" onclick="switchTab(3)">去登录</button>
+      </div>
+      <!-- 已登录 -->
+      <div id="consumption-content">
+        <div class="page-title">积分商城</div>
+
+        <div class="points-card card">
+          <div class="points-main">
+            <span class="points-label">可用积分</span>
+            <span class="points-value" id="availPoints">0</span>
+          </div>
+          <div class="points-spent">
+            <span class="spent-text">本月消耗</span>
+            <span class="spent-val" id="monthSpent">-0</span>
+            <span class="spent-link">查看明细 ></span>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <div class="action-btn action-add" onclick="showToast('添加奖励（开发中）')">+ 添加奖励</div>
+          <div class="action-btn action-deduct" onclick="showDeductModal()">快速扣减</div>
+        </div>
+
+        <div class="reward-grid" id="rewardGrid"></div>
+      </div>
+    </div>
+
+    <!-- 我的页面 -->
+    <div class="page" id="page-mine">
+      <!-- 未登录状态 -->
+      <div id="mine-logged-out">
+        <div class="profile-section" onclick="showLoginModal()">
+          <div class="profile-avatar" id="mineAvatarOut">👤</div>
+          <div>
+            <div class="profile-name">点击登录</div>
+            <div class="profile-join login-tip">登录后即可使用全部功能</div>
+          </div>
+          <div class="profile-arrow">›</div>
+        </div>
+        <div class="login-prompt card">
+          <span style="font-size:20px;">🔒</span>
+          <span style="font-size:14px;color:#999;">登录后可管理孩子的积分和习惯</span>
+        </div>
+      </div>
+
+      <!-- 已登录状态 -->
+      <div id="mine-logged-in" style="display:none;">
+        <div class="profile-section" onclick="showProfilePage()">
+          <div class="profile-avatar logged-in" id="mineAvatarIn">👤</div>
+          <div>
+            <div class="profile-name" id="mineNickName">微信用户</div>
+            <div class="profile-join" id="mineJoinDays">已加入 1 天</div>
+          </div>
+          <div class="profile-arrow">›</div>
+        </div>
+
+        <div class="stats-card card">
+          <div class="stats-item">
+            <span class="stats-icon">🪙</span>
+            <div>
+              <div class="stats-val" id="myTotalPoints">0</div>
+              <div class="stats-lbl">总积分</div>
+            </div>
+          </div>
+          <div class="stats-div"></div>
+          <div class="stats-item">
+            <span class="stats-icon">✅</span>
+            <div>
+              <div class="stats-val">0 天</div>
+              <div class="stats-lbl">连续打卡</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">家庭与规则</div>
+          <div class="menu-item card" onclick="showToast('孩子管理')">
+            <div class="menu-left"><div class="menu-icon">👤</div><div><div class="menu-title">孩子管理</div><div class="menu-sub">1 位</div></div></div>
+            <div class="menu-arrow">›</div>
+          </div>
+          <div class="menu-item card" onclick="showToast('积分规则')">
+            <div class="menu-left"><div class="menu-icon">📋</div><div><div class="menu-title">积分规则</div><div class="menu-sub" id="activePlanName">轻量日常生效中</div></div></div>
+            <div class="menu-arrow">›</div>
+          </div>
+          <div class="menu-item card" onclick="showToast('家庭共享')">
+            <div class="menu-left"><div class="menu-icon">👥</div><div><div class="menu-title">家庭共享</div><div class="menu-sub">1 位成员</div></div></div>
+            <div class="menu-right"><div class="invite-btn">邀请成员</div><div class="menu-arrow">›</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 帮助与协议（始终显示） -->
+      <div class="section">
+        <div class="section-title">帮助与协议</div>
+        <div class="menu-item card" onclick="showToast('帮助中心')">
+          <div class="menu-left"><div class="menu-icon">❓</div><div class="menu-title">帮助中心</div></div>
+          <div class="menu-arrow">›</div>
+        </div>
+        <div class="menu-item card" onclick="showToast('用户协议')">
+          <div class="menu-left"><div class="menu-icon">📄</div><div class="menu-title">用户协议</div></div>
+          <div class="menu-arrow">›</div>
+        </div>
+        <div class="menu-item card" onclick="showToast('隐私政策')">
+          <div class="menu-left"><div class="menu-icon">🔒</div><div class="menu-title">隐私政策</div></div>
+          <div class="menu-arrow">›</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal-mask" id="loginModal" onclick="hideLoginModal()">
+    <div class="modal-popup" onclick="event.stopPropagation()">
+      <div class="modal-title">微信登录</div>
+      <div class="modal-desc">授权微信头像和昵称完成登录</div>
+
+      <div class="login-avatar-section">
+        <div class="login-avatar-btn" id="loginAvatarBtn" onclick="pickLoginAvatar()">
+          <span id="loginAvatarPreview">👤</span>
+        </div>
+        <div class="login-avatar-hint">点击选择头像</div>
+      </div>
+
+      <div class="login-nickname-section">
+        <span class="login-field-label">昵称</span>
+        <input class="login-nickname-input" id="loginNickInput" type="text" placeholder="请输入昵称" />
+      </div>
+
+      <div class="modal-actions">
+        <div class="modal-cancel" onclick="hideLoginModal()">取消</div>
+        <div class="modal-confirm" onclick="doLogin()">授权登录</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Avatar Picker Modal -->
+  <div class="modal-mask" id="avatarPickerModal" onclick="hideAvatarPicker()">
+    <div class="modal-popup" onclick="event.stopPropagation()">
+      <div class="modal-title">选择头像</div>
+      <div class="modal-desc">选择一个头像代表自己</div>
+      <div class="avatar-picker-grid" id="avatarPickerGrid"></div>
+      <div class="modal-actions">
+        <div class="modal-cancel" onclick="hideAvatarPicker()">取消</div>
+        <div class="modal-confirm" onclick="confirmAvatar()">确定</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Page (overlay) -->
+  <div class="profile-page" id="profilePage">
+    <div class="profile-nav">
+      <div class="profile-back" onclick="hideProfilePage()">←</div>
+      <div class="profile-nav-title">个人资料</div>
+    </div>
+    <div class="profile-body">
+      <div class="profile-avatar-section">
+        <div class="profile-avatar-display" id="profileAvatarDisplay" onclick="pickProfileAvatar()">
+          <span id="profileAvatarEmoji">👤</span>
+        </div>
+        <div class="profile-avatar-hint">点击更换头像</div>
+      </div>
+
+      <div class="profile-info-item">
+        <span class="profile-info-label">昵称</span>
+        <input class="profile-info-input" id="profileNickInput" type="text" placeholder="请输入昵称" onblur="saveProfileNick()" />
+      </div>
+
+      <div class="profile-info-item">
+        <span class="profile-info-label">用户ID</span>
+        <span class="profile-info-value" id="profileUserId">-</span>
+      </div>
+
+      <div class="profile-info-item">
+        <span class="profile-info-label">加入时间</span>
+        <span class="profile-info-value" id="profileJoinDate">-</span>
+      </div>
+
+      <div class="logout-section">
+        <div class="logout-btn" onclick="doLogout()">退出登录</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scoring Popup -->
+  <div class="scoring-mask" id="scoringMask" onclick="closeScoring()">
+    <div class="scoring-popup" onclick="event.stopPropagation()">
+      <div class="popup-header">
+        <div class="popup-icon" id="popupIcon">✏️</div>
+        <div class="popup-title" id="popupTitle">完成作业</div>
+        <div class="popup-desc" id="popupDesc">按时完成当天作业</div>
+      </div>
+      <div class="grade-grid" id="gradeGrid"></div>
+      <div class="popup-tip">ⓘ 点击等级卡即可按默认分值快速计分；长按等级卡可临时修改本次得分。</div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Tab Bar -->
+  <div class="tab-bar">
+    <div class="tab-item active" onclick="switchTab(0)"><span class="tab-icon">🌟</span>成长</div>
+    <div class="tab-item" onclick="switchTab(1)"><span class="tab-icon">👑</span>计分</div>
+    <div class="tab-item" onclick="switchTab(2)"><span class="tab-icon">🎁</span>消耗</div>
+    <div class="tab-item" onclick="switchTab(3)"><span class="tab-icon">👤</span>我的</div>
+  </div>
+</div>
+
+<script>
+// ===== Avatar Options =====
+const AVATAR_EMOJIS = ['😊','😎','🥳','🤩','🧑','👧','👦','🧒','👨‍👩‍👧','🦊','🐱','🐶','🦁','🐼','🐸','🌟','⭐','🔥','💎','🎯'];
+
+// ===== Data Store =====
+const DEFAULT_ITEMS = [
+  { id: 'hw', name: '完成作业', icon: '✏️', desc: '按时完成当天作业', grades: { 'A+': {label:'优秀',score:10}, 'A': {label:'完成',score:6}, 'B': {label:'不合格',score:0}, 'D': {label:'未完成',score:-4} }},
+  { id: 'read', name: '课外阅读', icon: '📚', desc: '阅读不少于20分钟', grades: { 'A+': {label:'优秀',score:8}, 'A': {label:'完成',score:5}, 'B': {label:'不合格',score:0}, 'D': {label:'未完成',score:0} }},
+  { id: 'exercise', name: '户外运动', icon: '🏃', desc: '户外活动不少于30分钟', grades: { 'A+': {label:'优秀',score:8}, 'A': {label:'完成',score:5}, 'B': {label:'不合格',score:0}, 'D': {label:'未完成',score:0} }},
+  { id: 'clean', name: '整理房间', icon: '🧹', desc: '书桌、床铺和地面整洁', grades: { 'A+': {label:'优秀',score:6}, 'A': {label:'完成',score:4}, 'B': {label:'不合格',score:0}, 'D': {label:'未完成',score:-2} }}
+];
+
+const DEFAULT_REWARDS = [
+  { id: 'toy', name: '小玩具', icon: '🦆', desc: '兑换一个喜欢的小玩具', points: 20 },
+  { id: 'game', name: '游戏时间', icon: '🎮', desc: '兑换一次约定的游戏时间', points: 30 },
+  { id: 'movie', name: '亲子电影', icon: '🎬', desc: '周末一起看一场电影', points: 50 },
+  { id: 'paint', name: '亲子绘画', icon: '🎨', desc: '一起完成一次画画或手工创作', points: 60 },
+  { id: 'dining', name: '外出就餐', icon: '🍔', desc: '一起去喜欢的餐厅吃饭', points: 80 },
+  { id: 'park', name: '游乐场', icon: '🎪', desc: '周末去游乐场玩一次', points: 100 }
+];
+
+// User state (per-user isolation)
+let userStore = {
+  loggedIn: false,
+  loginUser: null  // { userId, nickName, avatarEmoji, loginTime }
+};
+
+let state = {
+  totalPoints: 0,
+  todayIncome: 0,
+  todayExpense: 0,
+  monthSpent: 0,
+  scoreRecords: [],
+  currentMode: 'quick',
+  selections: {}  // { itemId: { grade, score } }
+};
+
+let tempAvatarEmoji = '😊';
+
+// ===== Persistence =====
+function loadUserStore() {
+  const saved = localStorage.getItem('growthPoints_user');
+  if (saved) {
+    try { userStore = JSON.parse(saved); } catch(e) {}
+  }
+}
+
+function saveUserStore() {
+  localStorage.setItem('growthPoints_user', JSON.stringify(userStore));
+}
+
+function loadState() {
+  if (!userStore.loggedIn) return;
+  const key = 'growthPoints_data_' + userStore.loginUser.userId;
+  const saved = localStorage.getItem(key);
+  if (saved) {
+    try { state = JSON.parse(saved); } catch(e) {}
+  } else {
+    state = { totalPoints: 0, todayIncome: 0, todayExpense: 0, monthSpent: 0, scoreRecords: [], currentMode: 'quick', selections: {} };
+  }
+}
+
+function saveState() {
+  if (!userStore.loggedIn) return;
+  const key = 'growthPoints_data_' + userStore.loginUser.userId;
+  localStorage.setItem(key, JSON.stringify(state));
+}
+
+// ===== Auth =====
+function isLoggedIn() {
+  return userStore.loggedIn;
+}
+
+function showLoginModal() {
+  if (isLoggedIn()) return;
+  tempAvatarEmoji = '😊';
+  document.getElementById('loginAvatarPreview').textContent = '😊';
+  document.getElementById('loginNickInput').value = '';
+  document.getElementById('loginModal').classList.add('show');
+}
+
+function hideLoginModal() {
+  document.getElementById('loginModal').classList.remove('show');
+}
+
+function pickLoginAvatar() {
+  showAvatarPicker(function(emoji) {
+    tempAvatarEmoji = emoji;
+    document.getElementById('loginAvatarPreview').textContent = emoji;
+  });
+}
+
+function doLogin() {
+  const nickName = document.getElementById('loginNickInput').value.trim() || '微信用户';
+  const userId = 'u_' + Date.now().toString(36) + '_' + Math.random().toString(36).substr(2, 6);
+
+  userStore.loggedIn = true;
+  userStore.loginUser = {
+    userId: userId,
+    nickName: nickName,
+    avatarEmoji: tempAvatarEmoji,
+    loginTime: Date.now()
+  };
+  saveUserStore();
+  loadState();
+
+  hideLoginModal();
+  updateAuthUI();
+  showToast('✅ 登录成功');
+}
+
+function doLogout() {
+  if (!confirm('确定退出登录吗？')) return;
+  userStore.loggedIn = false;
+  userStore.loginUser = null;
+  state = { totalPoints: 0, todayIncome: 0, todayExpense: 0, monthSpent: 0, scoreRecords: [], currentMode: 'quick', currentItem: null };
+  saveUserStore();
+  hideProfilePage();
+  updateAuthUI();
+  showToast('已退出登录');
+}
+
+// ===== Profile Page =====
+function showProfilePage() {
+  if (!isLoggedIn()) return;
+  const u = userStore.loginUser;
+  document.getElementById('profileAvatarEmoji').textContent = u.avatarEmoji || '👤';
+  document.getElementById('profileNickInput').value = u.nickName || '';
+  document.getElementById('profileUserId').textContent = u.userId;
+  document.getElementById('profileJoinDate').textContent = new Date(u.loginTime).toISOString().split('T')[0];
+  document.getElementById('profilePage').classList.add('show');
+}
+
+function hideProfilePage() {
+  document.getElementById('profilePage').classList.remove('show');
+}
+
+function pickProfileAvatar() {
+  showAvatarPicker(function(emoji) {
+    userStore.loginUser.avatarEmoji = emoji;
+    saveUserStore();
+    document.getElementById('profileAvatarEmoji').textContent = emoji;
+    updateMinePage();
+  });
+}
+
+function saveProfileNick() {
+  const nickName = document.getElementById('profileNickInput').value.trim();
+  if (nickName && isLoggedIn()) {
+    userStore.loginUser.nickName = nickName;
+    saveUserStore();
+    updateMinePage();
+  }
+}
+
+// ===== Avatar Picker =====
+let avatarPickerCallback = null;
+
+function showAvatarPicker(callback) {
+  avatarPickerCallback = callback;
+  const grid = document.getElementById('avatarPickerGrid');
+  grid.innerHTML = AVATAR_EMOJIS.map(e =>
+    `<div class="avatar-option" onclick="selectAvatar(this, '${e}')">${e}</div>`
+  ).join('');
+  document.getElementById('avatarPickerModal').classList.add('show');
+}
+
+function selectAvatar(el, emoji) {
+  document.querySelectorAll('.avatar-option').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  tempAvatarEmoji = emoji;
+}
+
+function confirmAvatar() {
+  if (avatarPickerCallback) avatarPickerCallback(tempAvatarEmoji);
+  hideAvatarPicker();
+}
+
+function hideAvatarPicker() {
+  document.getElementById('avatarPickerModal').classList.remove('show');
+}
+
+// ===== Update Auth UI =====
+function updateAuthUI() {
+  const loggedIn = isLoggedIn();
+
+  // Show/hide login-required on tab pages
+  document.getElementById('growth-login').style.display = loggedIn ? 'none' : 'flex';
+  document.getElementById('growth-content').style.display = loggedIn ? 'block' : 'none';
+  document.getElementById('scoring-login').style.display = loggedIn ? 'none' : 'flex';
+  document.getElementById('scoring-content').style.display = loggedIn ? 'block' : 'none';
+  document.getElementById('consumption-login').style.display = loggedIn ? 'none' : 'flex';
+  document.getElementById('consumption-content').style.display = loggedIn ? 'block' : 'none';
+
+  // Mine page
+  document.getElementById('mine-logged-out').style.display = loggedIn ? 'none' : 'block';
+  document.getElementById('mine-logged-in').style.display = loggedIn ? 'block' : 'none';
+
+  if (loggedIn) {
+    updateMinePage();
+    updateStats();
+    renderScoringPage();
+    renderRewards();
+  }
+}
+
+// ===== Tab Switching =====
+const pages = ['page-growth', 'page-scoring', 'page-consumption', 'page-mine'];
+
+function switchTab(index) {
+  pages.forEach((id, i) => {
+    document.getElementById(id).classList.toggle('active', i === index);
+  });
+  document.querySelectorAll('.tab-item').forEach((tab, i) => {
+    tab.classList.toggle('active', i === index);
+  });
+  if (isLoggedIn()) {
+    if (index === 1) renderScoringPage();
+    if (index === 2) renderRewards();
+    if (index === 3) updateMinePage();
+    updateStats();
+  }
+}
+
+// ===== Growth Page =====
+function setRange(el) {
+  document.querySelectorAll('.filter-item').forEach(e => e.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function setDataView(el) {
+  document.querySelectorAll('.data-tab').forEach(e => e.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ===== Scoring Page =====
+let scoringSelections = {};  // { itemId: { grade, score } }
+
+function renderScoringPage() {
+  if (!isLoggedIn()) return;
+  const now = new Date();
+  document.getElementById('recordDate').textContent = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+  const list = document.getElementById('habitList');
+  const today = new Date(); today.setHours(0,0,0,0);
+  const tomorrow = new Date(today); tomorrow.setDate(tomorrow.getDate()+1);
+  const todayRecs = state.scoreRecords.filter(r => r.time >= today.getTime() && r.time < tomorrow.getTime());
+  list.innerHTML = DEFAULT_ITEMS.map(item => {
+    const rec = todayRecs.find(r => r.item === item.name);
+    const scoredClass = rec ? 'scored' : '';
+    const gradeTag = rec ? `<span class="habit-grade-tag">${rec.grade}</span>` : '';
+    return `<div class="habit-item card ${scoredClass}" onclick="openGradeModal('${item.id}')">
+      <div class="habit-icon-small">${item.icon}</div>
+      <div class="habit-info">
+        <div class="habit-name">${item.name}</div>
+        <div class="habit-desc">${item.desc}</div>
+      </div>
+      <div class="habit-right">${gradeTag}<div class="habit-pts">+${item.grades['A+'].score}分</div></div>
+    </div>`;
+  }).join('');
+}
+
+let modalItemId = null;
+
+function openGradeModal(itemId) {
+  const item = DEFAULT_ITEMS.find(i => i.id === itemId);
+  if (!item) return;
+  modalItemId = itemId;
+  document.getElementById('modalItemIcon').textContent = item.icon;
+  document.getElementById('modalItemName').textContent = item.name;
+  document.getElementById('modalItemDesc').textContent = item.desc;
+  const map = {'A+':'APlus','A':'A','B':'B','D':'D'};
+  ['A+','A','B','D'].forEach(g => {
+    document.getElementById('modalLabel' + map[g]).textContent = item.grades[g].label;
+    const score = item.grades[g].score;
+    document.getElementById('modalScore' + map[g]).textContent = (score >= 0 ? '+' : '') + score + '分';
+  });
+  document.getElementById('gradeModalMask').style.display = 'flex';
+}
+
+function closeGradeModal() {
+  document.getElementById('gradeModalMask').style.display = 'none';
+  modalItemId = null;
+}
+
+function onModalGradeSelect(grade) {
+  if (!modalItemId) return;
+  const item = DEFAULT_ITEMS.find(i => i.id === modalItemId);
+  if (!item) return;
+  const score = item.grades[grade].score;
+  const now = Date.now();
+  const today = new Date(); today.setHours(0,0,0,0);
+  const tomorrow = new Date(today); tomorrow.setDate(tomorrow.getDate()+1);
+  const existingIdx = state.scoreRecords.findIndex(r => r.item === item.name && r.time >= today.getTime() && r.time < tomorrow.getTime());
+  if (existingIdx >= 0) {
+    const old = state.scoreRecords[existingIdx];
+    state.totalPoints = state.totalPoints - old.score + score;
+    if (old.score > 0) state.todayIncome -= old.score;
+    if (score > 0) state.todayIncome += score;
+    state.scoreRecords[existingIdx] = { item: item.name, grade, score, time: now };
+  } else {
+    state.totalPoints += score;
+    if (score > 0) state.todayIncome += score;
+    state.scoreRecords.push({ item: item.name, grade, score, time: now });
+  }
+  saveState(); updateStats();
+  showToast(`${item.name} ${grade} ${score >= 0 ? '+' : ''}${score}分`);
+  closeGradeModal();
+  renderScoringPage();
+}
+
+function renderScoringGroup() {
+  const group = document.getElementById('scoringGroup');
+  group.innerHTML = DEFAULT_ITEMS.map(item => {
+    const sel = scoringSelections[item.id];
+    const grades = ['A+', 'A', 'B', 'D'];
+    const gradeBtns = grades.map(g => {
+      const cls = g === 'A+' ? 'grade-aplus' : g === 'A' ? 'grade-a' : g === 'B' ? 'grade-b' : 'grade-d';
+      const isSelected = sel && sel.grade === g;
+      const score = item.grades[g].score;
+      return `<div class="grade-btn ${cls} ${isSelected ? 'selected' : ''}" onclick="onGradeSelect('${item.id}', '${g}')">
+        <span class="grade-letter">${g}</span>
+        <span class="grade-label-text">${item.grades[g].label}</span>
+        <span class="grade-score-text">${score > 0 ? '+' : ''}${score}</span>
+      </div>`;
+    }).join('');
+    return `<div class="scoring-item">
+      <div class="scoring-item-header">
+        <div class="scoring-item-icon">${item.icon}</div>
+        <span class="scoring-item-name">${item.name}</span>
+      </div>
+      <div class="grade-row">${gradeBtns}</div>
+    </div>`;
+  }).join('');
+}
+
+function onGradeSelect(itemId, grade) {
+  const item = DEFAULT_ITEMS.find(i => i.id === itemId);
+  if (!item) return;
+  const score = item.grades[grade].score;
+  // Toggle: if same grade, deselect
+  if (scoringSelections[itemId] && scoringSelections[itemId].grade === grade) {
+    scoringSelections[itemId] = null;
+  } else {
+    scoringSelections[itemId] = { grade, score };
+  }
+  renderScoringGroup();
+  updateFooterStats();
+}
+
+function setAllGrade(grade) {
+  DEFAULT_ITEMS.forEach(item => {
+    scoringSelections[item.id] = { grade, score: item.grades[grade].score };
+  });
+  renderScoringGroup();
+  updateFooterStats();
+}
+
+function resetAll() {
+  DEFAULT_ITEMS.forEach(item => { scoringSelections[item.id] = null; });
+  renderScoringGroup();
+  updateFooterStats();
+}
+
+function updateFooterStats() {
+  let count = 0;
+  let total = 0;
+  Object.values(scoringSelections).forEach(sel => {
+    if (sel) { count++; total += sel.score; }
+  });
+  document.getElementById('selectedCount').textContent = count;
+  const totalEl = document.getElementById('totalScoreDisplay');
+  totalEl.textContent = (total >= 0 ? '+' : '') + total;
+  totalEl.className = 'footer-stat-total' + (total >= 0 ? ' positive' : ' negative');
+}
+
+function saveRecord() {
+  let count = 0, total = 0;
+  DEFAULT_ITEMS.forEach(item => {
+    const sel = scoringSelections[item.id];
+    if (sel) { count++; total += sel.score; state.totalPoints += sel.score; if (sel.score > 0) state.todayIncome += sel.score; state.scoreRecords.push({ item: item.name, grade: sel.grade, score: sel.score, time: Date.now() }); }
+  });
+  if (count === 0) { showToast('请至少选择一项评分'); return; }
+  saveState(); updateStats();
+  DEFAULT_ITEMS.forEach(item => { scoringSelections[item.id] = null; });
+  showToast(`✅ 已保存 ${count} 项，合计 ${total >= 0 ? '+' : ''}${total} 分`);
+  setTimeout(() => { closeQuickScoring(); renderScoringPage(); }, 800);
+}
+
+function openQuickScoring() {
+  DEFAULT_ITEMS.forEach(item => { scoringSelections[item.id] = null; });
+  renderScoringGroup(); updateFooterStats();
+  const now = new Date();
+  document.getElementById('qsRecordDate').textContent = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+  document.getElementById('quickScoringOverlay').style.display = 'block';
+}
+
+function closeQuickScoring() {
+  document.getElementById('quickScoringOverlay').style.display = 'none';
+}
+
+// ===== Consumption Page =====
+function renderRewards() {
+  if (!isLoggedIn()) return;
+  const grid = document.getElementById('rewardGrid');
+  grid.innerHTML = DEFAULT_REWARDS.map(r => `
+    <div class="reward-card card">
+      <div class="reward-icon">${r.icon}</div>
+      <div class="reward-name">${r.name}</div>
+      <div class="reward-desc">${r.desc}</div>
+      <div class="reward-pts">${r.points} 分</div>
+      <div class="redeem-btn" onclick="onRedeem('${r.id}', ${r.points}, '${r.name}')">兑换</div>
+    </div>
+  `).join('');
+}
+
+function onRedeem(id, points, name) {
+  if (state.totalPoints < points) {
+    showToast('积分不足，无法兑换');
+    return;
+  }
+  if (confirm(`确定消耗 ${points} 积分兑换「${name}」吗？`)) {
+    state.totalPoints -= points;
+    state.todayExpense += points;
+    state.monthSpent += points;
+    saveState();
+    updateStats();
+    showToast(`🎉 兑换成功：${name}`);
+  }
+}
+
+function showDeductModal() {
+  const points = prompt('请输入扣减积分：');
+  if (points && parseInt(points) > 0) {
+    const val = parseInt(points);
+    if (val > state.totalPoints) {
+      showToast('扣减积分不能超过可用积分');
+      return;
+    }
+    state.totalPoints -= val;
+    state.todayExpense += val;
+    state.monthSpent += val;
+    saveState();
+    updateStats();
+    showToast(`扣减 ${val} 分成功`);
+  }
+}
+
+// ===== Mine Page =====
+function updateMinePage() {
+  if (!isLoggedIn()) return;
+  const u = userStore.loginUser;
+
+  // Avatar
+  const avatarEl = document.getElementById('mineAvatarIn');
+  if (u.avatarEmoji) {
+    avatarEl.textContent = u.avatarEmoji;
+    avatarEl.style.borderStyle = 'solid';
+  }
+
+  // Name
+  document.getElementById('mineNickName').textContent = u.nickName;
+
+  // Join days
+  const days = Math.max(Math.floor((Date.now() - u.loginTime) / (1000 * 60 * 60 * 24)), 1);
+  document.getElementById('mineJoinDays').textContent = '已加入 ' + days + ' 天';
+
+  // Stats
+  document.getElementById('myTotalPoints').textContent = state.totalPoints;
+}
+
+// ===== Update Stats =====
+function updateStats() {
+  if (!isLoggedIn()) return;
+  document.getElementById('availPoints').textContent = state.totalPoints;
+  document.getElementById('monthSpent').textContent = '-' + state.monthSpent;
+
+  // Growth page
+  const netValue = state.todayIncome - state.todayExpense;
+  const netEl = document.getElementById('netValue');
+  netEl.textContent = (netValue >= 0 ? '+' : '') + netValue;
+  netEl.className = 'net-value' + (netValue < 0 ? ' negative' : '');
+  document.getElementById('incomeVal').textContent = '+' + state.todayIncome;
+  document.getElementById('expenseVal').textContent = '-' + state.todayExpense;
+
+  // Update growth data
+  const dataContent = document.getElementById('dataContent');
+  if (state.scoreRecords.length > 0) {
+    const categoryMap = {};
+    state.scoreRecords.forEach(r => {
+      if (!categoryMap[r.item]) categoryMap[r.item] = { income: 0, expense: 0, count: 0 };
+      if (r.score > 0) categoryMap[r.item].income += r.score;
+      else categoryMap[r.item].expense += Math.abs(r.score);
+      categoryMap[r.item].count++;
+    });
+
+    dataContent.innerHTML = Object.entries(categoryMap).map(([name, data]) => `
+      <div style="padding:10px 0;border-bottom:1px solid #f5f5f5;">
+        <div style="font-weight:600;margin-bottom:6px;">${name}</div>
+        <div style="display:flex;gap:16px;font-size:13px;">
+          <span style="color:#4CAF50;">+${data.income}</span>
+          <span style="color:#F44336;">-${data.expense}</span>
+          <span style="color:#999;">${data.count}次</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Update progress bar
+  const total = state.todayIncome + state.todayExpense;
+  const progressWidth = total > 0 ? Math.min((state.todayIncome / total * 100), 100) : 50;
+  document.getElementById('progressFill').style.width = progressWidth + '%';
+}
+
+// ===== Toast =====
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1500);
+}
+
+// ===== Init =====
+loadUserStore();
+loadState();
+updateAuthUI();
+if (isLoggedIn()) {
+  renderScoringPage();
+  renderRewards();
+  updateStats();
+}
+</script>
+</body>
+</html>

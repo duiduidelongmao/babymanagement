@@ -1,0 +1,160 @@
+<view class="container">
+  <!-- 未登录状态 -->
+  <block wx:if="{{!loggedIn}}">
+    <view class="profile-section" bindtap="onLogin">
+      <view class="avatar avatar-default">
+        <image class="avatar-img" src="/images/default-avatar.png" mode="aspectFill" wx:if="{{false}}"></image>
+        <text class="avatar-placeholder">👤</text>
+      </view>
+      <view class="profile-info">
+        <view class="profile-name">点击登录</view>
+        <view class="profile-join login-tip">登录后即可使用全部功能</view>
+      </view>
+      <view class="login-arrow">›</view>
+    </view>
+
+    <!-- 未登录提示 -->
+    <view class="login-prompt card">
+      <text class="prompt-icon">🔒</text>
+      <text class="prompt-text">登录后可管理孩子的积分和习惯</text>
+    </view>
+  </block>
+
+  <!-- 已登录状态 -->
+  <block wx:if="{{loggedIn}}">
+    <view class="profile-section" bindtap="onGoProfile">
+      <view class="avatar avatar-logged">
+        <image class="avatar-img" src="{{loginUser.avatarUrl}}" mode="aspectFill" wx:if="{{loginUser.avatarUrl}}"></image>
+        <text class="avatar-emoji" wx:if="{{!loginUser.avatarUrl}}">👤</text>
+      </view>
+      <view class="profile-info">
+        <view class="profile-name">{{loginUser.nickName}}</view>
+        <view class="profile-join">已加入 {{joinDays}} 天</view>
+      </view>
+      <view class="login-arrow">›</view>
+    </view>
+
+    <!-- 统计卡片 -->
+    <view class="stats-card card">
+      <view class="stats-row">
+        <view class="stats-col">
+          <text class="stats-num">{{currentChild.consecutiveDays || 0}}</text>
+          <text class="stats-desc">连续打卡</text>
+        </view>
+        <view class="stats-divider-v"></view>
+        <view class="stats-col stats-col-center" bindtap="onChildSwitch">
+          <view class="stats-name-wrap">
+            <text class="stats-name">{{currentChild.name || '孩子'}}</text>
+            <text class="stats-arrow" wx:if="{{childrenCount > 1}}">▼</text>
+          </view>
+          <text class="stats-desc">切换孩子</text>
+        </view>
+        <view class="stats-divider-v"></view>
+        <view class="stats-col">
+          <text class="stats-num">{{currentChild.totalPoints || 0}}</text>
+          <text class="stats-desc">总积分</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 家庭与规则 -->
+    <view class="section">
+      <view class="section-title">家庭与规则</view>
+
+      <view class="menu-item card" bindtap="onChildManage">
+        <view class="menu-left">
+          <view class="menu-icon orange">👤</view>
+          <view class="menu-text">
+            <text class="menu-title">孩子管理</text>
+            <text class="menu-sub">{{childrenCount}} 位</text>
+          </view>
+        </view>
+        <view class="menu-arrow">›</view>
+      </view>
+
+      <view class="menu-item card" bindtap="onPlanRules">
+        <view class="menu-left">
+          <view class="menu-icon orange">📋</view>
+          <view class="menu-text">
+            <text class="menu-title">积分规则</text>
+            <text class="menu-sub">{{activePlanName}}生效中</text>
+          </view>
+        </view>
+        <view class="menu-arrow">›</view>
+      </view>
+
+      <view class="menu-item card" bindtap="onFamilyShare">
+        <view class="menu-left">
+          <view class="menu-icon orange">👥</view>
+          <view class="menu-text">
+            <text class="menu-title">家庭共享</text>
+            <text class="menu-sub">{{memberCount}} 位成员</text>
+          </view>
+        </view>
+        <view class="menu-right">
+          <view class="invite-btn">邀请成员</view>
+          <view class="menu-arrow">›</view>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 帮助与协议（始终显示） -->
+  <view class="section">
+    <view class="section-title">帮助与协议</view>
+
+    <view class="menu-item card" bindtap="onHelp">
+      <view class="menu-left">
+        <view class="menu-icon orange">❓</view>
+        <text class="menu-title">帮助中心</text>
+      </view>
+      <view class="menu-arrow">›</view>
+    </view>
+
+    <view class="menu-item card" bindtap="onAgreement">
+      <view class="menu-left">
+        <view class="menu-icon orange">📄</view>
+        <text class="menu-title">用户协议</text>
+      </view>
+      <view class="menu-arrow">›</view>
+    </view>
+
+    <view class="menu-item card" bindtap="onPrivacy">
+      <view class="menu-left">
+        <view class="menu-icon orange">🔒</view>
+        <text class="menu-title">隐私政策</text>
+      </view>
+      <view class="menu-arrow">›</view>
+    </view>
+
+  </view>
+
+  <!-- 登录弹窗 -->
+  <view class="login-mask {{showLoginModal ? 'show' : ''}}" bindtap="onLoginCancel">
+    <view class="login-popup {{showLoginModal ? 'show' : ''}}" catchtap="preventBubble">
+      <view class="login-popup-title">微信登录</view>
+      <view class="login-popup-desc">授权微信头像和昵称完成登录</view>
+
+      <view class="login-form">
+        <!-- 头像选择 -->
+        <view class="login-avatar-section">
+          <view class="login-avatar-btn" bindtap="onChooseAvatar">
+            <image class="login-avatar-img" src="{{tempAvatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+            <view class="login-avatar-hint">点击选择头像</view>
+          </view>
+        </view>
+
+        <!-- 昵称输入 -->
+        <view class="login-nickname-section">
+          <text class="login-field-label">昵称</text>
+          <input class="login-nickname-input" type="text" placeholder="请输入昵称" value="{{tempNickName}}" bindinput="onNickNameInput" />
+        </view>
+      </view>
+
+      <view class="login-actions">
+        <view class="login-cancel-btn" bindtap="onLoginCancel">取消</view>
+        <view class="login-confirm-btn" bindtap="onLoginConfirm">授权登录</view>
+      </view>
+    </view>
+  </view>
+</view>

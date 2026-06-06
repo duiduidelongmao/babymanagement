@@ -1,0 +1,398 @@
+/* 家庭卡片 */
+.family-card {
+  margin-bottom: 32rpx;
+}
+
+.family-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.family-avatar {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FF9500, #FF8C00);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #ffffff;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+
+.family-info {
+  flex: 1;
+}
+
+.family-name {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 8rpx;
+}
+
+.family-count {
+  font-size: 26rpx;
+  color: #999999;
+}
+
+.family-edit {
+  font-size: 26rpx;
+  color: #FF8C00;
+  font-weight: 500;
+  padding: 8rpx 20rpx;
+  background: #FFF3E0;
+  border-radius: 24rpx;
+}
+
+.family-desc {
+  font-size: 26rpx;
+  color: #666666;
+  margin-bottom: 24rpx;
+  line-height: 1.5;
+}
+
+.invite-btns {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+
+.invite-btn-primary {
+  flex: 1;
+  background: linear-gradient(135deg, #FF9500, #FF8C00);
+  color: #ffffff;
+  text-align: center;
+  padding: 24rpx 0;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  border: none;
+  line-height: inherit;
+  margin: 0;
+}
+
+.invite-btn-primary::after {
+  border: none;
+}
+
+.invite-btn-text {
+  flex: 1;
+  text-align: center;
+  padding: 24rpx 0;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333333;
+}
+
+/* 区块标题 */
+.section-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 20rpx;
+}
+
+/* 成员列表 */
+.member-list {
+  margin-bottom: 32rpx;
+}
+
+.member-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 28rpx;
+  margin-bottom: 16rpx;
+}
+
+.member-avatar-img {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.member-avatar-default {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background: #FFF5EB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.member-info {
+  flex: 1;
+}
+
+.member-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 8rpx;
+}
+
+.member-tags {
+  display: flex;
+  gap: 12rpx;
+}
+
+.member-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4rpx 16rpx;
+  border-radius: 12rpx;
+  font-size: 22rpx;
+  font-weight: 500;
+}
+
+.tag-orange {
+  background: #FFF3E0;
+  color: #FF8C00;
+}
+
+.tag-blue {
+  background: #E3F2FD;
+  color: #2196F3;
+}
+
+/* 弹窗遮罩 */
+.nickname-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.nickname-mask.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.nickname-popup {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 32rpx 32rpx 0 0;
+  padding: 40rpx 32rpx;
+  padding-bottom: 60rpx;
+}
+
+.nickname-title {
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 32rpx;
+}
+
+.nickname-preset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.preset-item {
+  padding: 12rpx 28rpx;
+  border-radius: 32rpx;
+  font-size: 26rpx;
+  color: #666666;
+  background: #F5F5F5;
+  border: 2rpx solid transparent;
+}
+
+.preset-item.active {
+  background: #FFF3E0;
+  color: #FF8C00;
+  border-color: #FF8C00;
+}
+
+.nickname-input {
+  background: #F5F5F5;
+  border-radius: 16rpx;
+  padding: 24rpx 28rpx;
+  font-size: 28rpx;
+  margin-bottom: 32rpx;
+}
+
+.nickname-actions {
+  display: flex;
+  gap: 20rpx;
+}
+
+.btn-cancel {
+  flex: 1;
+  text-align: center;
+  padding: 24rpx 0;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  background: #F5F5F5;
+  color: #666666;
+}
+
+.btn-confirm {
+  flex: 1;
+  text-align: center;
+  padding: 24rpx 0;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  background: linear-gradient(135deg, #FF9500, #FF8C00);
+  color: #ffffff;
+}
+
+/* 海报弹窗 */
+.poster-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.poster-mask.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.poster-popup {
+  width: 640rpx;
+  background: #ffffff;
+  border-radius: 24rpx;
+  overflow: hidden;
+  position: relative;
+}
+
+.poster-close {
+  position: absolute;
+  top: 16rpx;
+  right: 24rpx;
+  font-size: 44rpx;
+  color: #999999;
+  z-index: 10;
+}
+
+.poster-image-wrap {
+  min-height: 400rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+}
+
+.poster-image {
+  width: 100%;
+  display: block;
+}
+
+.poster-loading {
+  font-size: 28rpx;
+  color: #999999;
+}
+
+.poster-actions {
+  display: flex;
+  padding: 24rpx 0;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.poster-action-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.poster-action-icon {
+  font-size: 40rpx;
+}
+
+.poster-action-text {
+  font-size: 24rpx;
+  color: #666666;
+}
+
+/* 邀请码展示 */
+.invite-code-wrap {
+  padding: 60rpx 40rpx;
+  text-align: center;
+}
+
+.invite-code-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 16rpx;
+}
+
+.invite-code-subtitle {
+  font-size: 26rpx;
+  color: #999999;
+  margin-bottom: 48rpx;
+}
+
+.invite-code-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24rpx;
+  margin-bottom: 24rpx;
+}
+
+.invite-code-value {
+  font-size: 56rpx;
+  font-weight: 700;
+  color: #FF8C00;
+  letter-spacing: 8rpx;
+  font-family: monospace;
+  background: #FFF3E0;
+  padding: 24rpx 48rpx;
+  border-radius: 16rpx;
+}
+
+.invite-code-copy {
+  font-size: 28rpx;
+  color: #ffffff;
+  background: linear-gradient(135deg, #FF9500, #FF8C00);
+  padding: 16rpx 32rpx;
+  border-radius: 32rpx;
+  font-weight: 600;
+}
+
+.invite-code-loading {
+  font-size: 28rpx;
+  color: #999999;
+  margin-bottom: 24rpx;
+}
+
+.invite-code-hint {
+  font-size: 24rpx;
+  color: #bbbbbb;
+}

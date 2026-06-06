@@ -1,0 +1,52 @@
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-icon">🔍</view>
+    <input class="search-input" placeholder="搜索问题" value="{{searchKeyword}}" bindinput="onSearchInput" />
+  </view>
+
+  <!-- 分类标签 -->
+  <scroll-view class="category-scroll" scroll-x>
+    <view class="category-list">
+      <view class="category-item {{activeCategory === item.id ? 'active' : ''}}" wx:for="{{categories}}" wx:key="id" data-id="{{item.id}}" bindtap="onCategoryTap">
+        {{item.name}}
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 常用入口 -->
+  <view class="section-label">常用入口</view>
+  <view class="common-entry card" bindtap="onRuleDetail">
+    <view class="entry-icon">❓</view>
+    <view class="entry-content">
+      <view class="entry-title">积分规则说明</view>
+      <view class="entry-desc">查阅方案、规则、账套的关系</view>
+    </view>
+    <view class="entry-arrow">›</view>
+  </view>
+
+  <!-- FAQ 列表 -->
+  <view class="faq-list">
+    <view class="faq-item card" wx:for="{{filteredFaqList}}" wx:key="id">
+      <view class="faq-header" data-index="{{index}}" bindtap="onToggleFaq">
+        <text class="faq-question">{{item.question}}</text>
+        <view class="faq-arrow {{item.open ? 'open' : ''}}">›</view>
+      </view>
+      <view class="faq-body {{item.open ? 'show' : ''}}">
+        <view class="faq-answer">{{item.answer}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部联系方式 -->
+  <view class="contact-section">
+    <view class="contact-label">没找到答案？</view>
+    <view class="contact-card">
+      <view class="contact-info">
+        <view class="contact-title">添加微信好友</view>
+        <view class="contact-phone">wxm309854581</view>
+      </view>
+      <view class="contact-copy" bindtap="onCopyPhone">复制</view>
+    </view>
+  </view>
+</view>

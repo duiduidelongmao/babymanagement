@@ -1,0 +1,41 @@
+<view class="container">
+  <!-- 净值卡片 -->
+  <view class="net-card card">
+    <view class="net-label">净值</view>
+    <view class="net-value {{netValue >= 0 ? 'positive' : 'negative'}}">{{netValue >= 0 ? '+' : ''}}{{netValue}}</view>
+    <view class="net-count">{{recordCount}} 条</view>
+  </view>
+
+  <!-- 收入/支出汇总 -->
+  <view class="summary-row card">
+    <view class="summary-item" bindtap="onGoIncome">
+      <text class="summary-label">收入</text>
+      <text class="summary-value positive">+{{income}}</text>
+    </view>
+    <view class="summary-item">
+      <text class="summary-label">支出</text>
+      <text class="summary-value negative">-{{expense}}</text>
+    </view>
+  </view>
+
+  <!-- 记录列表 -->
+  <view class="record-list">
+    <view class="record-item card" wx:for="{{records}}" wx:key="id" bindlongpress="onDeleteRecord" data-id="{{item.id}}">
+      <view class="record-icon">{{item.icon || '📤'}}</view>
+      <view class="record-info">
+        <view class="record-name">{{item.itemName}}</view>
+        <view class="record-meta">
+          <text class="record-time">{{item.timeStr}}</text>
+          <text class="record-grade {{item.gradeClass}}" wx:if="{{item.grade}}">{{item.grade}}</text>
+          <text class="record-desc" wx:if="{{item.description}}">{{item.description}}</text>
+        </view>
+      </view>
+      <view class="record-score negative">-{{item.points}}</view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:if="{{records.length === 0}}">
+    <view class="empty-icon">📭</view>
+    <view>暂无支出记录</view>
+  </view>
+</view>

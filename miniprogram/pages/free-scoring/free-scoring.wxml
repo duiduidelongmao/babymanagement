@@ -1,0 +1,55 @@
+<view class="container">
+  <!-- 未登录状态 -->
+  <view wx:if="{{!loggedIn}}" class="login-required">
+    <text class="login-required-icon">🔒</text>
+    <text class="login-required-text">请先登录</text>
+    <view class="login-required-btn" bindtap="onGoLogin">去登录</view>
+  </view>
+
+  <!-- 已登录内容 -->
+  <view wx:else>
+    <!-- 记录日期 -->
+    <picker mode="date" value="{{recordDate}}" bindchange="onDateChange">
+      <view class="date-card card">
+        <text class="date-label">记录日期</text>
+        <text class="date-value">{{recordDate}}</text>
+      </view>
+    </picker>
+
+    <!-- 加分/扣分切换 -->
+    <view class="type-toggle card">
+      <view class="type-btn {{scoreType === 'add' ? 'active' : ''}}" bindtap="onTypeChange" data-type="add">加分</view>
+      <view class="type-btn {{scoreType === 'deduct' ? 'active' : ''}}" bindtap="onTypeChange" data-type="deduct">扣分</view>
+    </view>
+
+    <!-- 快捷分值 -->
+    <view class="quick-scores">
+      <view class="quick-score-item {{selectedQuick === q ? 'active' : ''}}" wx:for="{{quickScores}}" wx:for-item="q" wx:key="*this" bindtap="onQuickScoreSelect" data-score="{{q}}">
+        <text class="quick-score-sign">{{scoreType === 'add' ? '+' : '-'}}</text>
+        <text class="quick-score-num">{{q}}</text>
+      </view>
+    </view>
+
+    <!-- 数量输入 -->
+    <view class="input-section">
+      <view class="input-label">{{scoreType === 'add' ? '加分' : '扣分'}}数量</view>
+      <input class="score-input" type="digit" placeholder="输入积分数量" value="{{customScore}}" bindinput="onScoreInput" />
+    </view>
+
+    <!-- 事项说明 -->
+    <view class="input-section">
+      <view class="input-label">事项说明</view>
+      <textarea class="desc-textarea" placeholder="记录事项" value="{{description}}" bindinput="onDescInput" maxlength="100" />
+    </view>
+
+    <!-- 底部操作栏 -->
+    <view class="free-footer">
+      <view class="footer-estimate">
+        <text>预计 </text>
+        <text class="estimate-num {{estimateScore >= 0 ? 'positive' : 'negative'}}">{{estimateScore >= 0 ? '+' : ''}}{{estimateScore}}</text>
+        <text> 分</text>
+      </view>
+      <view class="footer-save {{canSave ? '' : 'disabled'}}" bindtap="onSave">保存记录</view>
+    </view>
+  </view>
+</view>

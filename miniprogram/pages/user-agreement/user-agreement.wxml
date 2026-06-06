@@ -1,0 +1,45 @@
+<view class="container">
+  <view class="agreement-header">
+    <view class="agreement-title">本产品用户协议</view>
+    <view class="agreement-date">更新日期：2026年5月8日</view>
+  </view>
+
+  <view class="agreement-intro">
+    使用本产品前，请确认你已了解本协议。本产品面向家庭积分管理场景，不提供金融、教育测评或医疗建议。
+  </view>
+
+  <view class="agreement-section">
+    <view class="section-title">服务内容</view>
+    <view class="section-paragraph">本产品提供孩子账套、积分规则、积分记录、奖励兑换和成长统计等功能。</view>
+    <view class="section-paragraph">家长可根据家庭情况自定义规则、奖励和扣减方式。</view>
+    <view class="section-paragraph">系统内置模版仅用于快速创建规则，实际执行由家庭自行确认。</view>
+  </view>
+
+  <view class="agreement-section">
+    <view class="section-title">账号使用</view>
+    <view class="section-paragraph">请使用真实可控的微信账号登录并管理家庭数据。</view>
+    <view class="section-paragraph">请妥善保管账号，不要将账号交给无关人员操作。</view>
+    <view class="section-paragraph">同一账号下的孩子账套、规则和记录由账号使用者负责维护。</view>
+  </view>
+
+  <view class="agreement-section">
+    <view class="section-title">积分与奖励</view>
+    <view class="section-paragraph">积分仅用于家庭内部激励，不具备现金价值。</view>
+    <view class="section-paragraph">奖励兑换、撤销和补记应以家庭实际约定为准。</view>
+    <view class="section-paragraph">使用过程中请避免设置可能影响孩子身心健康的规则或奖励。</view>
+  </view>
+
+  <view class="agreement-section">
+    <view class="section-title">数据与安全</view>
+    <view class="section-paragraph">系统默认实时保存业务数据，页面中提交的更改会同步更新。</view>
+    <view class="section-paragraph">请不要上传违法、侵权或涉及他人隐私的内容。</view>
+    <view class="section-paragraph">因设备、网络或平台异常导致的短时不可用，我们会尽力恢复服务。</view>
+  </view>
+
+  <view class="agreement-section">
+    <view class="section-title">协议更新</view>
+    <view class="section-paragraph">功能调整或法律要求变化时，协议内容可能同步更新。</view>
+    <view class="section-paragraph">更新后的协议会在本页面展示。</view>
+    <view class="section-paragraph">继续使用本产品即表示接受更新后的内容。</view>
+  </view>
+</view>

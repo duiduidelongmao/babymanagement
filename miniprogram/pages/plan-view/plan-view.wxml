@@ -1,0 +1,134 @@
+<view class="container" wx:if="{{plan}}">
+  <view class="plan-header card">
+    <view class="plan-icon">{{plan.icon}}</view>
+    <view class="plan-title-wrap">
+      <view class="plan-title-row">
+        <text class="plan-title">{{plan.name}}</text>
+        <view class="plan-badge" wx:if="{{isTemplate}}">内置</view>
+        <view class="plan-edit-btn" wx:if="{{!isTemplate}}" bindtap="onEditPlan">编辑</view>
+      </view>
+      <view class="plan-desc">{{plan.description}}</view>
+      <view class="plan-tags" wx:if="{{plan.tags && plan.tags.length}}">
+        <view class="plan-tag-wrap" wx:for="{{plan.tags}}" wx:for-item="tag" wx:key="*this">
+          <view class="plan-tag">{{tag}}</view>
+          <view class="tag-delete" wx:if="{{!isTemplate}}" bindtap="onRemoveTag" data-tag="{{tag}}">×</view>
+        </view>
+        <view class="plan-tag count-tag">{{plan.items.length}} 条</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="items-section">
+    <view class="add-item-row" wx:if="{{!isTemplate}}">
+      <view class="add-item-btn" bindtap="onAddItem">+ 新建细项</view>
+    </view>
+    <view class="item-card card" wx:for="{{plan.items}}" wx:key="id">
+      <view class="item-header">
+        <view class="item-icon">{{item.icon}}</view>
+        <view class="item-title-wrap">
+          <view class="item-title-row">
+            <text class="item-title">{{item.name}}</text>
+            <view class="item-freq">{{item.frequency}}</view>
+          </view>
+          <view class="item-desc">{{item.description}}</view>
+        </view>
+        <view class="item-actions" wx:if="{{!isTemplate}}">
+          <view class="item-action-btn edit" bindtap="onEditItem" data-id="{{item.id}}">编辑</view>
+          <view class="item-action-btn delete" bindtap="onDeleteItem" data-id="{{item.id}}">删除</view>
+        </view>
+      </view>
+      <view class="item-grades">
+        <view class="grade-pill {{grade.class}}" wx:for="{{item.gradeList}}" wx:for-item="grade" wx:key="grade">
+          <text class="grade-label">{{grade.grade}}</text>
+          <text class="grade-score">{{grade.score >= 0 ? '+' : ''}}{{grade.score}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-action" wx:if="{{isTemplate}}">
+    <view class="use-btn" bindtap="onUseTemplate">使用模板</view>
+  </view>
+
+  <!-- 规则编辑弹窗 -->
+  <view class="edit-mask {{showPlanEdit ? 'show' : ''}}" bindtap="onPlanEditCancel">
+    <view class="edit-popup {{showPlanEdit ? 'show' : ''}}" catchtap="preventBubble">
+      <view class="edit-popup-title">编辑规则</view>
+
+      <view class="edit-field">
+        <text class="edit-field-label">名称</text>
+        <input class="edit-field-input" value="{{editPlanName}}" bindinput="onEditPlanName" placeholder="规则名称" />
+      </view>
+
+      <view class="edit-field">
+        <text class="edit-field-label">描述</text>
+        <input class="edit-field-input" value="{{editPlanDesc}}" bindinput="onEditPlanDesc" placeholder="规则描述" />
+      </view>
+
+      <view class="edit-field">
+        <text class="edit-field-label">标签（用逗号分隔）</text>
+        <input class="edit-field-input" value="{{editPlanTags}}" bindinput="onEditPlanTags" placeholder="例如：日常, 6-12岁" />
+      </view>
+
+      <view class="edit-actions">
+        <view class="edit-btn cancel" bindtap="onPlanEditCancel">取消</view>
+        <view class="edit-btn confirm" bindtap="onPlanEditConfirm">保存</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 细项编辑弹窗 -->
+  <view class="edit-mask {{showItemEdit ? 'show' : ''}}" bindtap="onItemEditCancel">
+    <view class="edit-popup {{showItemEdit ? 'show' : ''}}" catchtap="preventBubble">
+      <view class="edit-popup-title">{{isAddingItem ? '新建细项' : '编辑细项'}}</view>
+
+      <view class="edit-field">
+        <text class="edit-field-label">名称</text>
+        <input class="edit-field-input" value="{{editItemName}}" bindinput="onEditItemName" placeholder="细项名称" />
+      </view>
+
+      <view class="edit-field">
+        <text class="edit-field-label">描述</text>
+        <input class="edit-field-input" value="{{editItemDesc}}" bindinput="onEditItemDesc" placeholder="细项描述" />
+      </view>
+
+      <view class="edit-field">
+        <text class="edit-field-label">图标（emoji）</text>
+        <input class="edit-field-input" value="{{editItemIcon}}" bindinput="onEditItemIcon" placeholder="例如：✏️" />
+        <!-- 图标选择器 -->
+        <scroll-view class="icon-cat-tabs" scroll-x="true">
+          <view class="icon-cat-tab {{currentIconCat === item.name ? 'active' : ''}}"
+            wx:for="{{iconCategories}}" wx:key="name" wx:for-item="item"
+            bindtap="onSwitchIconCat" data-cat="{{item.name}}">{{item.name}}</view>
+        </scroll-view>
+        <block wx:for="{{iconCategories}}" wx:key="name" wx:for-item="cat">
+          <view class="icon-picker-wrap" wx:if="{{currentIconCat === cat.name}}">
+            <view class="icon-picker-item {{editItemIcon === item ? 'selected' : ''}}"
+              wx:for="{{cat.icons}}" wx:key="*this"
+              bindtap="onSelectIcon" data-icon="{{item}}">{{item}}</view>
+          </view>
+        </block>
+      </view>
+
+      <view class="edit-field">
+        <text class="edit-field-label">频率</text>
+        <input class="edit-field-input" value="{{editItemFreq}}" bindinput="onEditItemFreq" placeholder="例如：每天" />
+      </view>
+
+      <view class="edit-field">
+        <text class="edit-field-label">各等级分值</text>
+        <view class="score-inputs">
+          <view class="score-input-row" wx:for="{{['A','B','C','D']}}" wx:for-item="g" wx:key="g">
+            <text class="score-input-label">{{g}}</text>
+            <input class="score-input-field" type="number" value="{{editItemScores[g]}}" bindinput="onEditItemScore" data-grade="{{g}}" placeholder="分值" />
+          </view>
+        </view>
+      </view>
+
+      <view class="edit-actions">
+        <view class="edit-btn cancel" bindtap="onItemEditCancel">取消</view>
+        <view class="edit-btn confirm" bindtap="onItemEditConfirm">保存</view>
+      </view>
+    </view>
+  </view>
+</view>

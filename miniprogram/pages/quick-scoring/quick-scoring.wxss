@@ -1,0 +1,74 @@
+/* 记录日期 */
+.date-card { display: flex; align-items: center; justify-content: space-between; padding: 20rpx 28rpx; margin-bottom: 20rpx; }
+.date-label { font-size: 26rpx; color: #999999; }
+.date-value { font-size: 28rpx; font-weight: 600; color: #FF8C00; }
+
+/* 快捷操作栏 */
+.quick-action-bar { display: flex; gap: 10rpx; margin-bottom: 16rpx; }
+.quick-action-btn { padding: 14rpx 24rpx; border-radius: 16rpx; font-size: 26rpx; font-weight: 500; background: #ffffff; color: #666666; white-space: nowrap; flex-shrink: 0; }
+.quick-action-btn.reset-btn { background: #F5F5F5; color: #999999; }
+
+/* 评分项目 */
+.score-group { margin-bottom: 120rpx; }
+.score-item { background: #ffffff; border-radius: 16rpx; padding: 20rpx 24rpx; margin-bottom: 16rpx; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+.score-item-header { display: flex; align-items: center; gap: 8rpx; margin-bottom: 16rpx; }
+.score-item-icon { font-size: 32rpx; }
+.score-item-name { font-size: 30rpx; font-weight: 600; color: #333333; }
+
+/* 等级按钮行 */
+.score-grade-row { display: flex; gap: 10rpx; }
+.grade-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12rpx 0; border-radius: 12rpx; transition: all 0.2s ease; }
+.grade-btn-letter { font-size: 24rpx; font-weight: 800; margin-bottom: 2rpx; }
+.grade-btn-label { font-size: 20rpx; color: #666666; }
+.grade-btn-score { font-size: 22rpx; font-weight: 700; }
+
+/* A+ */
+.grade-a-plus { background: #E8F5E9; }
+.grade-a-plus .grade-btn-letter { color: #4CAF50; }
+.grade-a-plus .grade-btn-score { color: #4CAF50; }
+.grade-a-plus.selected { background: #4CAF50; transform: scale(1.02); }
+.grade-a-plus.selected .grade-btn-letter { color: #ffffff; }
+.grade-a-plus.selected .grade-btn-label { color: #ffffff; }
+.grade-a-plus.selected .grade-btn-score { color: #ffffff; }
+
+/* A */
+.grade-a { background: #E3F2FD; }
+.grade-a .grade-btn-letter { color: #2196F3; }
+.grade-a .grade-btn-score { color: #2196F3; }
+.grade-a.selected { background: #2196F3; transform: scale(1.02); }
+.grade-a.selected .grade-btn-letter { color: #ffffff; }
+.grade-a.selected .grade-btn-label { color: #ffffff; }
+.grade-a.selected .grade-btn-score { color: #ffffff; }
+
+/* B */
+.grade-b { background: #FFF8E1; }
+.grade-b .grade-btn-letter { color: #FF9800; }
+.grade-b .grade-btn-score { color: #FF9800; }
+.grade-b.selected { background: #FF9800; transform: scale(1.02); }
+.grade-b.selected .grade-btn-letter { color: #ffffff; }
+.grade-b.selected .grade-btn-label { color: #ffffff; }
+.grade-b.selected .grade-btn-score { color: #ffffff; }
+
+/* D */
+.grade-d { background: #FFEBEE; }
+.grade-d .grade-btn-letter { color: #F44336; }
+.grade-d .grade-btn-score { color: #F44336; }
+.grade-d.selected { background: #F44336; transform: scale(1.02); }
+.grade-d.selected .grade-btn-letter { color: #ffffff; }
+.grade-d.selected .grade-btn-label { color: #ffffff; }
+.grade-d.selected .grade-btn-score { color: #ffffff; }
+
+/* 底部汇总栏 */
+.score-summary-bar {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  background: #ffffff; padding: 16rpx 32rpx;
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1rpx solid #f0f0f0;
+  box-shadow: 0 -4rpx 16rpx rgba(0,0,0,0.08);
+  z-index: 10;
+}
+.summary-info { font-size: 26rpx; color: #666666; }
+.summary-total { font-weight: 700; font-size: 32rpx; }
+.summary-total.positive { color: #4CAF50; }
+.summary-total.negative { color: #F44336; }
+.save-btn { padding: 20rpx 48rpx; border-radius: 36rpx; background: linear-gradient(135deg, #FF9500, #FF8C00); color: #ffffff; font-size: 30rpx; font-weight: 600; }

@@ -1,0 +1,59 @@
+<view class="container">
+  <!-- 记录日期 -->
+  <picker mode="date" value="{{recordDate}}" bindchange="onDateChange">
+    <view class="date-card card">
+      <text class="date-label">记录日期</text>
+      <text class="date-value">{{recordDate}}</text>
+    </view>
+  </picker>
+
+  <!-- 快捷操作栏 -->
+  <view class="quick-action-bar">
+    <view class="quick-action-btn" bindtap="onSetAllGrade" data-grade="A">全部 A</view>
+    <view class="quick-action-btn" bindtap="onSetAllGrade" data-grade="B">全部 B</view>
+    <view class="quick-action-btn" bindtap="onSetAllGrade" data-grade="C">全部 C</view>
+    <view class="quick-action-btn" bindtap="onSetAllGrade" data-grade="D">全部 D</view>
+    <view class="quick-action-btn reset-btn" bindtap="onResetAll">重置</view>
+  </view>
+
+  <!-- 评分项目列表 -->
+  <view class="score-group">
+    <view class="score-item" wx:for="{{habitItems}}" wx:key="id">
+      <view class="score-item-header">
+        <text class="score-item-icon">{{item.icon}}</text>
+        <text class="score-item-name">{{item.name}}</text>
+      </view>
+      <view class="score-grade-row">
+        <view class="grade-btn grade-a-plus {{selections[item.id] && selections[item.id].grade === 'A' ? 'selected' : ''}}" bindtap="onGradeSelect" data-item-id="{{item.id}}" data-grade="A">
+          <text class="grade-btn-letter">A</text>
+          <text class="grade-btn-label">{{item.gradeAPlus.label}}</text>
+          <text class="grade-btn-score">{{item.gradeAPlus.score > 0 ? '+' : ''}}{{item.gradeAPlus.score}}</text>
+        </view>
+        <view class="grade-btn grade-a {{selections[item.id] && selections[item.id].grade === 'B' ? 'selected' : ''}}" bindtap="onGradeSelect" data-item-id="{{item.id}}" data-grade="B">
+          <text class="grade-btn-letter">B</text>
+          <text class="grade-btn-label">{{item.gradeA.label}}</text>
+          <text class="grade-btn-score">{{item.gradeA.score > 0 ? '+' : ''}}{{item.gradeA.score}}</text>
+        </view>
+        <view class="grade-btn grade-b {{selections[item.id] && selections[item.id].grade === 'C' ? 'selected' : ''}}" bindtap="onGradeSelect" data-item-id="{{item.id}}" data-grade="C">
+          <text class="grade-btn-letter">C</text>
+          <text class="grade-btn-label">{{item.gradeB.label}}</text>
+          <text class="grade-btn-score">{{item.gradeB.score > 0 ? '+' : ''}}{{item.gradeB.score}}</text>
+        </view>
+        <view class="grade-btn grade-d {{selections[item.id] && selections[item.id].grade === 'D' ? 'selected' : ''}}" bindtap="onGradeSelect" data-item-id="{{item.id}}" data-grade="D">
+          <text class="grade-btn-letter">D</text>
+          <text class="grade-btn-label">{{item.gradeD.label}}</text>
+          <text class="grade-btn-score">{{item.gradeD.score > 0 ? '+' : ''}}{{item.gradeD.score}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部汇总栏 -->
+  <view class="score-summary-bar">
+    <view class="summary-info">
+      <text>已选 {{selectedCount}} 项，本日合计 </text>
+      <text class="summary-total {{totalScore >= 0 ? 'positive' : 'negative'}}">{{totalScore >= 0 ? '+' : ''}}{{totalScore}}</text>
+    </view>
+    <view class="save-btn" bindtap="onSaveRecord">保存记录</view>
+  </view>
+</view>

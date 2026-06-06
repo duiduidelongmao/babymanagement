@@ -1,0 +1,107 @@
+.habit-card {
+  padding: 24rpx 28rpx;
+}
+
+.habit-top {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.habit-icon {
+  font-size: 48rpx;
+  margin-right: 16rpx;
+  width: 64rpx;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFF5EB;
+  border-radius: 16rpx;
+}
+
+.habit-info {
+  flex: 1;
+}
+
+.habit-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333333;
+}
+
+.habit-freq {
+  font-size: 22rpx;
+  color: #FF8C00;
+  margin-top: 4rpx;
+}
+
+.habit-actions {
+  display: flex;
+  gap: 16rpx;
+  align-items: center;
+}
+
+.action-btn {
+  font-size: 24rpx;
+  width: 48rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f5f5f5;
+}
+
+.action-delete {
+  color: #F44336;
+  background: #FFEBEE;
+}
+
+.habit-desc {
+  font-size: 24rpx;
+  color: #999999;
+  margin-bottom: 16rpx;
+  padding-left: 80rpx;
+}
+
+.habit-grades {
+  display: flex;
+  gap: 12rpx;
+  padding-left: 80rpx;
+  flex-wrap: wrap;
+}
+
+.grade-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4rpx;
+  padding: 6rpx 14rpx;
+  border-radius: 10rpx;
+  font-size: 20rpx;
+  font-weight: 500;
+}
+
+.grade-tag.grade-a-plus {
+  background: #E8F5E9;
+  color: #4CAF50;
+}
+
+.grade-tag.grade-a {
+  background: #E3F2FD;
+  color: #2196F3;
+}
+
+.grade-tag.grade-b {
+  background: #FFF8E1;
+  color: #FF9800;
+}
+
+.grade-tag.grade-d {
+  background: #FFEBEE;
+  color: #F44336;
+}
+
+.grade-pts {
+  font-weight: 700;
+}

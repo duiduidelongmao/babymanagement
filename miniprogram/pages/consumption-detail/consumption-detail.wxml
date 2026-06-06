@@ -1,0 +1,72 @@
+<view class="container">
+  <!-- 统计卡片 -->
+  <view class="stat-card card">
+    <view class="stat-label">筛选消耗</view>
+    <view class="stat-value">{{totalPoints}}</view>
+    <view class="stat-count">{{recordCount}} 条</view>
+  </view>
+
+  <!-- 筛选模式切换 -->
+  <view class="filter-tabs">
+    <view class="filter-tab {{filterMode === 'day' ? 'active' : ''}}" bindtap="onFilterModeChange" data-mode="day">按日</view>
+    <view class="filter-tab {{filterMode === 'month' ? 'active' : ''}}" bindtap="onFilterModeChange" data-mode="month">按月</view>
+    <view class="filter-tab {{filterMode === 'custom' ? 'active' : ''}}" bindtap="onFilterModeChange" data-mode="custom">自定义</view>
+  </view>
+
+  <!-- 按日选择器 -->
+  <view class="date-picker-row" wx:if="{{filterMode === 'day'}}">
+    <picker mode="date" value="{{dayDate}}" bindchange="onDayDateChange">
+      <view class="date-picker-item">
+        <text class="date-picker-label">日期</text>
+        <text class="date-picker-value">{{dayDate}}</text>
+      </view>
+    </picker>
+  </view>
+
+  <!-- 按月选择器 -->
+  <view class="date-picker-row" wx:if="{{filterMode === 'month'}}">
+    <picker mode="date" fields="month" value="{{monthDate + '-01'}}" bindchange="onMonthDateChange">
+      <view class="date-picker-item">
+        <text class="date-picker-label">月份</text>
+        <text class="date-picker-value">{{monthDate}}</text>
+      </view>
+    </picker>
+  </view>
+
+  <!-- 自定义范围 -->
+  <view class="date-picker-row custom-row" wx:if="{{filterMode === 'custom'}}">
+    <picker mode="date" value="{{customStart}}" bindchange="onCustomStartChange">
+      <view class="date-picker-item">
+        <text class="date-picker-label">开始</text>
+        <text class="date-picker-value">{{customStart}}</text>
+      </view>
+    </picker>
+    <picker mode="date" value="{{customEnd}}" bindchange="onCustomEndChange">
+      <view class="date-picker-item">
+        <text class="date-picker-label">结束</text>
+        <text class="date-picker-value">{{customEnd}}</text>
+      </view>
+    </picker>
+  </view>
+
+  <!-- 记录列表 -->
+  <view class="record-list">
+    <block wx:if="{{records.length > 0}}">
+      <view class="record-item card" wx:for="{{records}}" wx:key="id" bindlongpress="onDeleteRecord" data-id="{{item.id}}">
+        <view class="record-left">
+          <view class="record-icon">{{item.type === 'redeem' ? '🎁' : '➖'}}</view>
+          <view class="record-info">
+            <view class="record-name">{{item.rewardName || item.note || '快速扣减'}}</view>
+            <view class="record-date">{{item.dateStr}}</view>
+          </view>
+        </view>
+        <view class="record-points">-{{item.points}}分</view>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="empty-state card">
+        <view class="empty-text">当前范围没有消耗记录</view>
+      </view>
+    </block>
+  </view>
+</view>

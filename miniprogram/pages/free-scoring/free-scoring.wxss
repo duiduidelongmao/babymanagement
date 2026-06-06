@@ -1,0 +1,31 @@
+/* 记录日期 */
+.date-card { display: flex; align-items: center; justify-content: space-between; padding: 20rpx 28rpx; margin-bottom: 20rpx; background: #ffffff; border-radius: 24rpx; box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06); }
+.date-label { font-size: 26rpx; color: #999999; }
+.date-value { font-size: 28rpx; font-weight: 600; color: #FF8C00; }
+
+/* 加分/扣分切换 */
+.type-toggle { display: flex; padding: 8rpx; margin-bottom: 24rpx; }
+.type-btn { flex: 1; text-align: center; padding: 20rpx 0; border-radius: 16rpx; font-size: 30rpx; font-weight: 600; color: #666666; }
+.type-btn.active { background: #4CAF50; color: #ffffff; }
+
+/* 快捷分值 */
+.quick-scores { display: flex; justify-content: space-around; margin-bottom: 32rpx; }
+.quick-score-item { display: flex; align-items: center; padding: 16rpx 24rpx; border-radius: 16rpx; }
+.quick-score-item.active { background: #FFF3E0; }
+.quick-score-sign { font-size: 28rpx; font-weight: 700; color: #FF8C00; }
+.quick-score-num { font-size: 36rpx; font-weight: 800; color: #FF8C00; }
+
+/* 输入区域 */
+.input-section { margin-bottom: 24rpx; }
+.input-label { font-size: 30rpx; font-weight: 600; color: #333333; margin-bottom: 12rpx; }
+.score-input { background: #ffffff; border-radius: 16rpx; padding: 24rpx 28rpx; font-size: 30rpx; }
+.desc-textarea { background: #ffffff; border-radius: 16rpx; padding: 24rpx 28rpx; font-size: 30rpx; height: 160rpx; width: auto; }
+
+/* 底部操作栏 */
+.free-footer { position: fixed; left: 0; right: 0; bottom: 0; background: #ffffff; padding: 16rpx 32rpx; display: flex; align-items: center; justify-content: space-between; border-top: 1rpx solid #f0f0f0; box-shadow: 0 -4rpx 16rpx rgba(0,0,0,0.06); }
+.footer-estimate { font-size: 30rpx; color: #666666; }
+.estimate-num { font-weight: 700; font-size: 36rpx; }
+.estimate-num.positive { color: #4CAF50; }
+.estimate-num.negative { color: #F44336; }
+.footer-save { padding: 20rpx 48rpx; border-radius: 40rpx; background: #4CAF50; color: #ffffff; font-size: 30rpx; font-weight: 600; }
+.footer-save.disabled { background: #cccccc; }

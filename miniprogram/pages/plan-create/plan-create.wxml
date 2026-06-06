@@ -1,0 +1,32 @@
+<view class="container">
+  <!-- 方案名称 -->
+  <view class="form-group">
+    <view class="form-label">方案名称</view>
+    <input class="form-input" placeholder="例如：学霸日常" value="{{name}}" bindinput="onNameInput" />
+  </view>
+
+  <!-- 选择图标 -->
+  <view class="form-group">
+    <view class="form-label">选择图标</view>
+    <view class="icon-grid">
+      <view class="icon-item {{selectedIcon === item ? 'selected' : ''}}"
+        wx:for="{{iconList}}" wx:key="*this"
+        wx:for-item="item"
+        bindtap="onIconSelect" data-icon="{{item}}">
+        {{item}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 方案说明 -->
+  <view class="form-group">
+    <view class="form-label">方案说明</view>
+    <textarea class="form-textarea" placeholder="例如：上学日常使用" value="{{description}}" bindinput="onDescInput" maxlength="200" />
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="form-actions">
+    <view class="btn-cancel" bindtap="onCancel">取消</view>
+    <view class="btn-save" bindtap="onSave">保存方案</view>
+  </view>
+</view>

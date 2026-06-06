@@ -1,0 +1,32 @@
+.stat-card { padding: 32rpx; margin-bottom: 20rpx; position: relative; }
+.stat-label { font-size: 26rpx; color: #999999; margin-bottom: 8rpx; }
+.stat-value { font-size: 72rpx; font-weight: 800; color: #F44336; }
+.stat-count { position: absolute; right: 32rpx; top: 50%; transform: translateY(-50%); font-size: 26rpx; color: #999999; }
+
+/* 筛选模式切换 */
+.filter-tabs { display: flex; gap: 16rpx; margin-bottom: 20rpx; }
+.filter-tab { flex: 1; text-align: center; padding: 20rpx 0; border-radius: 16rpx; font-size: 28rpx; color: #666666; background: #ffffff; }
+.filter-tab.active { background: #FFF3E0; color: #FF8C00; font-weight: 600; }
+
+/* 日期选择器 */
+.date-picker-row { margin-bottom: 20rpx; }
+.date-picker-row.custom-row { display: flex; gap: 16rpx; }
+.date-picker-row.custom-row picker { flex: 1; }
+
+.date-picker-item { display: flex; align-items: center; justify-content: space-between; padding: 24rpx 28rpx; background: #ffffff; border-radius: 16rpx; }
+.date-picker-label { font-size: 28rpx; color: #333333; font-weight: 500; }
+.date-picker-value { font-size: 28rpx; color: #FF8C00; font-weight: 600; }
+
+/* 记录列表 */
+.record-list { margin-top: 8rpx; }
+.record-item { display: flex; align-items: center; justify-content: space-between; padding: 24rpx 28rpx; margin-bottom: 12rpx; }
+.record-left { display: flex; align-items: center; gap: 16rpx; flex: 1; }
+.record-icon { font-size: 36rpx; width: 64rpx; height: 64rpx; display: flex; align-items: center; justify-content: center; background: #FFF5EB; border-radius: 16rpx; }
+.record-info { flex: 1; }
+.record-name { font-size: 28rpx; font-weight: 600; color: #333333; }
+.record-date { font-size: 22rpx; color: #999999; margin-top: 4rpx; }
+.record-points { font-size: 30rpx; font-weight: 700; color: #F44336; }
+
+/* 空状态 */
+.empty-state { padding: 80rpx 0; text-align: center; }
+.empty-text { font-size: 28rpx; color: #999999; }

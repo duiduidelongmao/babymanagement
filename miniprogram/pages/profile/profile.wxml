@@ -1,0 +1,33 @@
+<view class="container">
+  <!-- 头像 -->
+  <view class="profile-avatar-section" bindtap="onAvatarTap">
+    <view class="avatar-wrapper">
+      <image class="profile-avatar" src="{{avatarUrl}}" mode="aspectFill" wx:if="{{avatarUrl}}"></image>
+      <text class="profile-avatar-emoji" wx:if="{{!avatarUrl}}">👤</text>
+    </view>
+    <text class="avatar-hint">点击更换头像</text>
+  </view>
+
+  <!-- 昵称 -->
+  <view class="info-item card">
+    <text class="info-label">昵称</text>
+    <input class="info-input" type="text" value="{{nickName}}" bindinput="onNickNameInput" bindblur="onNickNameBlur" placeholder="请输入昵称" />
+  </view>
+
+  <!-- 用户ID（只读展示） -->
+  <view class="info-item card">
+    <text class="info-label">用户ID</text>
+    <text class="info-value-readonly">{{userId}}</text>
+  </view>
+
+  <!-- 加入时间 -->
+  <view class="info-item card">
+    <text class="info-label">加入时间</text>
+    <text class="info-value-readonly">{{joinDate}}</text>
+  </view>
+
+  <!-- 退出登录 -->
+  <view class="logout-section">
+    <view class="logout-btn" bindtap="onLogout">退出登录</view>
+  </view>
+</view>

@@ -1,0 +1,64 @@
+<view class="container">
+  <!-- 顶部标题区 -->
+  <view class="detail-header">
+    <view class="detail-title">{{grade ? grade + '等级' : categoryName}}</view>
+    <view class="detail-date-range">{{dateRangeStr}}</view>
+  </view>
+
+  <!-- 时间筛选器 -->
+  <scroll-view class="time-filter" scroll-x="true">
+    <view class="filter-item {{currentRange === '7d' ? 'active' : ''}}" bindtap="onRangeChange" data-range="7d">近7天</view>
+    <view class="filter-item {{currentRange === '30d' ? 'active' : ''}}" bindtap="onRangeChange" data-range="30d">近30天</view>
+    <view class="filter-item {{currentRange === '90d' ? 'active' : ''}}" bindtap="onRangeChange" data-range="90d">近90天</view>
+    <view class="filter-item {{currentRange === 'half' ? 'active' : ''}}" bindtap="onRangeChange" data-range="half">近半年</view>
+    <view class="filter-item {{currentRange === 'year' ? 'active' : ''}}" bindtap="onRangeChange" data-range="year">近一年</view>
+  </scroll-view>
+
+  <!-- 统计卡片 -->
+  <view class="stats-card card">
+    <view class="stats-main">
+      <view class="stats-label">净值</view>
+      <view class="stats-value {{stats.netValue >= 0 ? 'positive' : 'negative'}}">
+        {{stats.netValue >= 0 ? '+' : ''}}{{stats.netValue}}
+      </view>
+      <view class="stats-count">{{recordList.length}} 条</view>
+    </view>
+    <view class="stats-row">
+      <view class="stats-item">
+        <view class="stats-item-label">收入</view>
+        <view class="stats-item-value positive">+{{stats.income}}</view>
+      </view>
+      <view class="stats-divider"></view>
+      <view class="stats-item">
+        <view class="stats-item-label">支出</view>
+        <view class="stats-item-value negative">-{{stats.expense}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 记录列表 -->
+  <view class="record-list">
+    <block wx:if="{{recordList.length > 0}}">
+      <view class="record-item card" wx:for="{{recordList}}" wx:key="id">
+        <view class="record-icon-wrap">
+          <view class="record-icon">{{item.icon || '✨'}}</view>
+        </view>
+        <view class="record-info">
+          <view class="record-name">{{item.name}}</view>
+          <view class="record-meta">
+            <text class="record-date">{{item.dateStr}}</text>
+            <text class="record-tag" wx:if="{{item.isFreeScore}}">自由计分</text>
+            <text class="record-tag" wx:if="{{item.planName}}">{{item.planName}}</text>
+          </view>
+        </view>
+        <view class="record-score {{item.score >= 0 ? 'positive' : 'negative'}}">
+          {{item.score >= 0 ? '+' : ''}}{{item.score}}
+        </view>
+      </view>
+    </block>
+    <view class="empty-state" wx:else>
+      <view class="empty-icon">📊</view>
+      <text>该时间段暂无记录</text>
+    </view>
+  </view>
+</view>
