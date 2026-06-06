@@ -148,7 +148,7 @@
   <view class="join-popup" catchtap="preventBubble">
     <view class="join-title">加入家庭</view>
     <view class="join-subtitle">请输入家人分享的邀请码</view>
-    <input class="join-input" placeholder="例如：A1B2C3D4" value="{{inputInviteCode}}" bindinput="onJoinCodeInput" maxlength="8" />
+    <input wx:if="{{showJoinModal}}" class="join-input" placeholder="例如：A1B2C3D4" value="{{inputInviteCode}}" bindinput="onJoinCodeInput" maxlength="8" />
     <view class="join-actions">
       <view class="join-btn-cancel" bindtap="onCloseJoinModal">取消</view>
       <view class="join-btn-confirm" bindtap="onConfirmJoin">确认加入</view>

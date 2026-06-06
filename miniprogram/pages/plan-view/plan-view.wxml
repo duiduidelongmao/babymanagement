@@ -57,17 +57,17 @@
 
       <view class="edit-field">
         <text class="edit-field-label">名称</text>
-        <input class="edit-field-input" value="{{editPlanName}}" bindinput="onEditPlanName" placeholder="规则名称" />
+        <input wx:if="{{showPlanEdit}}" class="edit-field-input" value="{{editPlanName}}" bindinput="onEditPlanName" placeholder="规则名称" />
       </view>
 
       <view class="edit-field">
         <text class="edit-field-label">描述</text>
-        <input class="edit-field-input" value="{{editPlanDesc}}" bindinput="onEditPlanDesc" placeholder="规则描述" />
+        <input wx:if="{{showPlanEdit}}" class="edit-field-input" value="{{editPlanDesc}}" bindinput="onEditPlanDesc" placeholder="规则描述" />
       </view>
 
       <view class="edit-field">
         <text class="edit-field-label">标签（用逗号分隔）</text>
-        <input class="edit-field-input" value="{{editPlanTags}}" bindinput="onEditPlanTags" placeholder="例如：日常, 6-12岁" />
+        <input wx:if="{{showPlanEdit}}" class="edit-field-input" value="{{editPlanTags}}" bindinput="onEditPlanTags" placeholder="例如：日常, 6-12岁" />
       </view>
 
       <view class="edit-actions">
@@ -84,17 +84,17 @@
 
       <view class="edit-field">
         <text class="edit-field-label">名称</text>
-        <input class="edit-field-input" value="{{editItemName}}" bindinput="onEditItemName" placeholder="细项名称" />
+        <input wx:if="{{showItemEdit}}" class="edit-field-input" value="{{editItemName}}" bindinput="onEditItemName" placeholder="细项名称" />
       </view>
 
       <view class="edit-field">
         <text class="edit-field-label">描述</text>
-        <input class="edit-field-input" value="{{editItemDesc}}" bindinput="onEditItemDesc" placeholder="细项描述" />
+        <input wx:if="{{showItemEdit}}" class="edit-field-input" value="{{editItemDesc}}" bindinput="onEditItemDesc" placeholder="细项描述" />
       </view>
 
       <view class="edit-field">
         <text class="edit-field-label">图标（emoji）</text>
-        <input class="edit-field-input" value="{{editItemIcon}}" bindinput="onEditItemIcon" placeholder="例如：✏️" />
+        <input wx:if="{{showItemEdit}}" class="edit-field-input" value="{{editItemIcon}}" bindinput="onEditItemIcon" placeholder="例如：✏️" />
         <!-- 图标选择器 -->
         <scroll-view class="icon-cat-tabs" scroll-x="true">
           <view class="icon-cat-tab {{currentIconCat === item.name ? 'active' : ''}}"
@@ -112,7 +112,7 @@
 
       <view class="edit-field">
         <text class="edit-field-label">频率</text>
-        <input class="edit-field-input" value="{{editItemFreq}}" bindinput="onEditItemFreq" placeholder="例如：每天" />
+        <input wx:if="{{showItemEdit}}" class="edit-field-input" value="{{editItemFreq}}" bindinput="onEditItemFreq" placeholder="例如：每天" />
       </view>
 
       <view class="edit-field">
@@ -120,7 +120,7 @@
         <view class="score-inputs">
           <view class="score-input-row" wx:for="{{['A','B','C','D']}}" wx:for-item="g" wx:key="g">
             <text class="score-input-label">{{g}}</text>
-            <input class="score-input-field" type="number" value="{{editItemScores[g]}}" bindinput="onEditItemScore" data-grade="{{g}}" placeholder="分值" />
+            <input wx:if="{{showItemEdit}}" class="score-input-field" type="number" value="{{editItemScores[g]}}" bindinput="onEditItemScore" data-grade="{{g}}" placeholder="分值" />
           </view>
         </view>
       </view>

@@ -55,12 +55,12 @@
 
         <view class="deduct-field">
           <text class="deduct-label">扣减积分</text>
-          <input class="deduct-input" type="number" placeholder="输入扣减积分" value="{{deductPoints}}" bindinput="onDeductPointsInput" />
+          <input wx:if="{{showDeduct}}" class="deduct-input" type="number" placeholder="输入扣减积分" value="{{deductPoints}}" bindinput="onDeductPointsInput" />
         </view>
 
         <view class="deduct-field">
           <text class="deduct-label">备注</text>
-          <input class="deduct-input" placeholder="选填" value="{{deductNote}}" bindinput="onDeductNoteInput" />
+          <input wx:if="{{showDeduct}}" class="deduct-input" placeholder="选填" value="{{deductNote}}" bindinput="onDeductNoteInput" />
         </view>
 
         <view class="deduct-actions">
