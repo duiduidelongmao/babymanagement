@@ -273,7 +273,7 @@ function getDefaultChildren() {
   return [
     {
       id: 'child_1',
-      name: '王小明',
+      name: '宝贝',
       avatar: '🧒',
       joinDate: new Date().toISOString().split('T')[0],
       totalPoints: 0,

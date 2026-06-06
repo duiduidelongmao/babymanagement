@@ -3,9 +3,7 @@
   <view class="login-mask" wx:if="{{!loggedIn}}" catchtap="onLoginTap"></view>
 
   <!-- 页面标题 -->
-    <view class="page-header">
-      <view class="page-title">积分商城</view>
-    </view>
+
 
     <!-- 积分汇总 -->
     <view class="points-card card">

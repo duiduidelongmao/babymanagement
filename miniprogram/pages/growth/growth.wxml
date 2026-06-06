@@ -10,8 +10,8 @@
         </view>
         <view class="child-name">
           <text class="name-text">{{currentChildName || '成长概览'}}</text>
-          <text class="child-arrow" wx:if="{{childrenCount > 1}}">▼</text>
         </view>
+        <view class="child-arrow" wx:if="{{childrenCount > 1}}">▼</view>
       </view>
       <view class="join-family-btn" bindtap="onShowJoinModal">加入家庭</view>
     </view>
@@ -26,15 +26,15 @@
       <view class="filter-item {{currentRange === 'year' ? 'active' : ''}}" bindtap="onRangeChange" data-range="year">近一年</view>
     </scroll-view>
 
-    <!-- 净值趋势图卡片 -->
+    <!-- 趋势图卡片 -->
     <view class="trend-card card">
-      <view class="trend-label">净值趋势</view>
+      <view class="trend-label">趋势</view>
       <image src="{{trendSvg}}" class="trend-canvas" mode="scaleToFill" key="{{trendSvgKey}}"></image>
     </view>
 
-    <!-- 净值指标卡 -->
+    <!-- 积分指标卡 -->
     <view class="net-value-card card">
-      <view class="net-label">净值</view>
+      <view class="net-label">积分</view>
       <view class="net-row-three">
         <view class="net-col net-col-main" bindtap="onGoIncome">
           <view class="net-col-label">净值</view>

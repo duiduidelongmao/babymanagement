@@ -93,7 +93,7 @@
       </view>
 
       <view class="edit-field">
-        <text class="edit-field-label">图标（emoji）</text>
+        <text class="edit-field-label">图标</text>
         <input wx:if="{{showItemEdit}}" class="edit-field-input" value="{{editItemIcon}}" bindinput="onEditItemIcon" placeholder="例如：✏️" />
         <!-- 图标选择器 -->
         <scroll-view class="icon-cat-tabs" scroll-x="true">

@@ -62,16 +62,11 @@ Page({
     })
   },
 
-  onChooseAvatar() {
-    const that = this
-    wx.chooseMedia({
-      count: 1,
-      mediaType: ['image'],
-      sourceType: ['album', 'camera'],
-      success(res) {
-        that.setData({ tempAvatarUrl: res.tempFiles[0].tempFilePath })
-      }
-    })
+  onChooseAvatar(e) {
+    const { avatarUrl } = e.detail
+    if (avatarUrl) {
+      this.setData({ tempAvatarUrl: avatarUrl })
+    }
   },
 
   onNickNameInput(e) {

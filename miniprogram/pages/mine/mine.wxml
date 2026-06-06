@@ -138,16 +138,16 @@
       <view class="login-form">
         <!-- 头像选择 -->
         <view class="login-avatar-section">
-          <view class="login-avatar-btn" bindtap="onChooseAvatar">
+          <button class="login-avatar-btn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
             <image class="login-avatar-img" src="{{tempAvatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"></image>
             <view class="login-avatar-hint">点击选择头像</view>
-          </view>
+          </button>
         </view>
 
         <!-- 昵称输入 -->
         <view class="login-nickname-section">
           <text class="login-field-label">昵称</text>
-          <input wx:if="{{showLoginModal}}" class="login-nickname-input" type="text" placeholder="请输入昵称" value="{{tempNickName}}" bindinput="onNickNameInput" />
+          <input wx:if="{{showLoginModal}}" class="login-nickname-input" type="nickname" placeholder="请输入昵称" value="{{tempNickName}}" bindinput="onNickNameInput" />
         </view>
       </view>
 

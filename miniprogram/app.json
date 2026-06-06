@@ -44,13 +44,13 @@
       },
       {
         "pagePath": "pages/scoring/scoring",
-        "text": "计分",
+        "text": "积分",
         "iconPath": "images/tab-scoring.png",
         "selectedIconPath": "images/tab-scoring-active.png"
       },
       {
         "pagePath": "pages/consumption/consumption",
-        "text": "消耗",
+        "text": "兑换",
         "iconPath": "images/tab-consumption.png",
         "selectedIconPath": "images/tab-consumption-active.png"
       },
