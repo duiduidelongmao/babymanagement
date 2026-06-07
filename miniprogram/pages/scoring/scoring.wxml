@@ -22,7 +22,7 @@
     <!-- 当前积分 -->
     <view class="points-card card">
       <view class="points-label">当前积分</view>
-      <view class="points-value">{{currentChild.totalPoints}}<text class="points-unit">分</text><text class="star-unit">⭐</text></view>
+      <view class="points-value">{{currentChild.totalPoints}}<text class="star-unit">⭐</text></view>
     </view>
 
     <!-- 今日收入/支出 -->
