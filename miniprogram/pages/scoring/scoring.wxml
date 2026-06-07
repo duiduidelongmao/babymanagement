@@ -22,7 +22,7 @@
     <!-- 当前积分 -->
     <view class="points-card card">
       <view class="points-label">当前积分</view>
-      <view class="points-value">{{currentChild.totalPoints}}<text class="points-unit">分</text></view>
+      <view class="points-value">{{currentChild.totalPoints}}<text class="points-unit">分</text><text class="star-unit">⭐</text></view>
     </view>
 
     <!-- 今日收入/支出 -->
@@ -31,7 +31,7 @@
         <view class="today-stat-dot income-dot"></view>
         <view class="today-stat-info">
           <text class="today-stat-label">今日收入</text>
-          <text class="today-stat-value positive">+{{todayIncome}}</text>
+          <view class="today-stat-value positive"><text>+{{todayIncome}}</text><text class="star-unit">⭐</text></view>
         </view>
       </view>
       <view class="today-stat-divider"></view>
@@ -39,7 +39,7 @@
         <view class="today-stat-dot expense-dot"></view>
         <view class="today-stat-info">
           <text class="today-stat-label">今日支出</text>
-          <text class="today-stat-value negative">-{{todayExpense}}</text>
+          <view class="today-stat-value negative"><text>-{{todayExpense}}</text><text class="star-unit">⭐</text></view>
         </view>
       </view>
     </view>
@@ -66,7 +66,7 @@
         </view>
         <view class="habit-right">
           <view class="habit-grade {{item.gradeClass}}" wx:if="{{item.scoredGrade}}">{{item.scoredGrade}}</view>
-          <view class="habit-pts {{item.gradeClass}}">{{item.displayScore >= 0 ? '+' : ''}}{{item.displayScore}}分</view>
+          <view class="habit-pts {{item.gradeClass}}">{{item.displayScore >= 0 ? '+' : ''}}{{item.displayScore}}分<text class="star-unit">⭐</text></view>
         </view>
       </view>
     </view>

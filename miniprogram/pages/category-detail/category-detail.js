@@ -21,7 +21,7 @@ Page({
   },
 
   onLoad(options) {
-    const categoryName = options.categoryName || ''
+    const categoryName = options.categoryName ? decodeURIComponent(options.categoryName) : ''
     const grade = options.grade || ''
     const range = options.range || '7d'
     this.setData({ categoryName, grade, currentRange: range })

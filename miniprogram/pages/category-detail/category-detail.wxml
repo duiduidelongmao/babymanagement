@@ -19,19 +19,19 @@
     <view class="stats-main">
       <view class="stats-label">净值</view>
       <view class="stats-value {{stats.netValue >= 0 ? 'positive' : 'negative'}}">
-        {{stats.netValue >= 0 ? '+' : ''}}{{stats.netValue}}
+        {{stats.netValue >= 0 ? '+' : ''}}{{stats.netValue}}<text class="star-unit">⭐</text>
       </view>
       <view class="stats-count">{{recordList.length}} 条</view>
     </view>
     <view class="stats-row">
       <view class="stats-item">
         <view class="stats-item-label">收入</view>
-        <view class="stats-item-value positive">+{{stats.income}}</view>
+        <view class="stats-item-value positive">+{{stats.income}}<text class="star-unit">⭐</text></view>
       </view>
       <view class="stats-divider"></view>
       <view class="stats-item">
         <view class="stats-item-label">支出</view>
-        <view class="stats-item-value negative">-{{stats.expense}}</view>
+        <view class="stats-item-value negative">-{{stats.expense}}<text class="star-unit">⭐</text></view>
       </view>
     </view>
   </view>
@@ -52,7 +52,7 @@
           </view>
         </view>
         <view class="record-score {{item.score >= 0 ? 'positive' : 'negative'}}">
-          {{item.score >= 0 ? '+' : ''}}{{item.score}}
+          {{item.score >= 0 ? '+' : ''}}{{item.score}}<text class="star-unit">⭐</text>
         </view>
       </view>
     </block>

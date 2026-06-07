@@ -39,18 +39,18 @@
         <view class="net-col net-col-main" bindtap="onGoIncome">
           <view class="net-col-label">净值</view>
           <view class="net-col-value {{stats.netValue >= 0 ? 'positive' : 'negative'}} net-col-value-large">
-            {{stats.netValue >= 0 ? '+' : ''}}{{stats.netValue}}
+            {{stats.netValue >= 0 ? '+' : ''}}{{stats.netValue}}<text class="star-unit">⭐</text>
           </view>
         </view>
         <view class="net-col-divider"></view>
         <view class="net-col" bindtap="onGoIncome">
           <view class="net-col-label">收入</view>
-          <view class="net-col-value positive">+{{stats.income}}</view>
+          <view class="net-col-value positive">+{{stats.income}}<text class="star-unit">⭐</text></view>
         </view>
         <view class="net-col-divider"></view>
         <view class="net-col" bindtap="onGoExpense">
           <view class="net-col-label">支出</view>
-          <view class="net-col-value negative">-{{stats.expense}}</view>
+          <view class="net-col-value negative">-{{stats.expense}}<text class="star-unit">⭐</text></view>
         </view>
       </view>
     </view>

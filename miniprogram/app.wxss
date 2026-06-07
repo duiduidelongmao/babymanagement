@@ -17,6 +17,13 @@ view, text, image {
   padding-bottom: 180rpx;
 }
 
+/* 积分星星单位 */
+.star-unit {
+  font-size: 0.55em;
+  vertical-align: middle;
+  margin-left: 4rpx;
+}
+
 /* 通用卡片 */
 .card {
   background: #ffffff;
