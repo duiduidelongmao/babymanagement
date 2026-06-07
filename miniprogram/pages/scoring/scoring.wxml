@@ -66,7 +66,7 @@
         </view>
         <view class="habit-right">
           <view class="habit-grade {{item.gradeClass}}" wx:if="{{item.scoredGrade}}">{{item.scoredGrade}}</view>
-          <view class="habit-pts {{item.gradeClass}}">{{item.displayScore >= 0 ? '+' : ''}}{{item.displayScore}}分<text class="star-unit">⭐</text></view>
+          <view class="habit-pts {{item.gradeClass}}">{{item.displayScore >= 0 ? '+' : ''}}{{item.displayScore}}<text class="star-unit">⭐</text></view>
         </view>
       </view>
     </view>
@@ -94,7 +94,7 @@
             <view class="grade-card-menu">☰</view>
           </view>
           <text class="grade-card-label">{{modalItem.gradeAPlus.label}}</text>
-          <text class="grade-card-score">{{modalItem.gradeAPlus.score >= 0 ? '+' : ''}}{{modalItem.gradeAPlus.score}}分</text>
+          <text class="grade-card-score">{{modalItem.gradeAPlus.score >= 0 ? '+' : ''}}{{modalItem.gradeAPlus.score}}<text class="star-unit">⭐</text></text>
         </view>
         <view class="grade-card grade-a {{modalSelectedGrade === 'B' ? 'selected' : ''}}" bindtap="onModalGradeSelect" data-grade="B">
           <view class="grade-card-top">
@@ -102,7 +102,7 @@
             <view class="grade-card-menu">☰</view>
           </view>
           <text class="grade-card-label">{{modalItem.gradeA.label}}</text>
-          <text class="grade-card-score">{{modalItem.gradeA.score >= 0 ? '+' : ''}}{{modalItem.gradeA.score}}分</text>
+          <text class="grade-card-score">{{modalItem.gradeA.score >= 0 ? '+' : ''}}{{modalItem.gradeA.score}}<text class="star-unit">⭐</text></text>
         </view>
         <view class="grade-card grade-b {{modalSelectedGrade === 'C' ? 'selected' : ''}}" bindtap="onModalGradeSelect" data-grade="C">
           <view class="grade-card-top">
@@ -110,7 +110,7 @@
             <view class="grade-card-menu">☰</view>
           </view>
           <text class="grade-card-label">{{modalItem.gradeB.label}}</text>
-          <text class="grade-card-score">{{modalItem.gradeB.score >= 0 ? '+' : ''}}{{modalItem.gradeB.score}}分</text>
+          <text class="grade-card-score">{{modalItem.gradeB.score >= 0 ? '+' : ''}}{{modalItem.gradeB.score}}<text class="star-unit">⭐</text></text>
         </view>
         <view class="grade-card grade-d {{modalSelectedGrade === 'D' ? 'selected' : ''}}" bindtap="onModalGradeSelect" data-grade="D">
           <view class="grade-card-top">
@@ -118,7 +118,7 @@
             <view class="grade-card-menu">☰</view>
           </view>
           <text class="grade-card-label">{{modalItem.gradeD.label}}</text>
-          <text class="grade-card-score">{{modalItem.gradeD.score >= 0 ? '+' : ''}}{{modalItem.gradeD.score}}分</text>
+          <text class="grade-card-score">{{modalItem.gradeD.score >= 0 ? '+' : ''}}{{modalItem.gradeD.score}}<text class="star-unit">⭐</text></text>
         </view>
       </view>
 
