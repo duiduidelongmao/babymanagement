@@ -24,6 +24,11 @@ view, text, image {
   margin-left: 4rpx;
 }
 
+.star-large {
+  font-size: 36rpx;
+  margin-left: 8rpx;
+}
+
 /* 通用卡片 */
 .card {
   background: #ffffff;

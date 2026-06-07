@@ -214,6 +214,10 @@
   cursor: pointer;
 }
 
+.stats-num-wrap {
+  display: flex;
+  align-items: center;
+}
 .stats-num {
   font-size: 40rpx;
   font-weight: 700;

@@ -51,7 +51,10 @@
         </view>
         <view class="stats-divider-v"></view>
         <view class="stats-col">
-          <text class="stats-num">{{currentChild.totalPoints || 0}}</text>
+          <view class="stats-num-wrap">
+            <text class="stats-num">{{currentChild.totalPoints || 0}}</text>
+            <text class="star-unit star-large">⭐</text>
+          </view>
           <text class="stats-desc">总积分</text>
         </view>
       </view>
