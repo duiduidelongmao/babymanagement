@@ -23,7 +23,13 @@
 }
 
 .points-label { font-size: 28rpx; color: #999999; }
+.points-value-wrap {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
 .points-value { font-size: 56rpx; font-weight: 800; color: #FF8C00; }
+.star-large { font-size: 36rpx; margin-left: 8rpx; }
 
 .points-spent {
   display: flex;

@@ -9,7 +9,10 @@
     <view class="points-card card">
       <view class="points-main">
         <text class="points-label">可用积分</text>
-        <text class="points-value">{{currentChild.totalPoints || 0}}</text><text class="star-unit">⭐</text>
+        <view class="points-value-wrap">
+          <text class="points-value">{{currentChild.totalPoints || 0}}</text>
+          <text class="star-unit star-large">⭐</text>
+        </view>
       </view>
       <view class="points-spent">
         <text class="spent-text">本月消耗</text>
@@ -34,7 +37,7 @@
         <view class="reward-icon">{{item.icon}}</view>
         <view class="reward-name">{{item.name}}</view>
         <view class="reward-desc">{{item.description}}</view>
-        <view class="reward-pts">{{item.points}} 分<text class="star-unit">⭐</text></view>
+        <view class="reward-pts">{{item.points}}<text class="star-unit">⭐</text></view>
         <view class="redeem-btn" bindtap="onRedeem" data-reward="{{item}}">兑换</view>
       </view>
     </view>
