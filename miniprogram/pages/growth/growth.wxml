@@ -123,15 +123,15 @@
           <view class="daily-header">
             <view class="daily-date">{{item.dateStr}}</view>
             <view class="daily-net {{item.net >= 0 ? 'positive' : 'negative'}}">
-              {{item.net >= 0 ? '+' : ''}}{{item.net}} ›
+              {{item.net >= 0 ? '+' : ''}}{{item.net}}<text class="star-unit">⭐</text> ›
             </view>
           </view>
           <view class="daily-bars">
             <view class="daily-bar income-bar">
-              <text>收入 {{item.income >= 0 ? '+' : ''}}{{item.income}}</text>
+              <text>收入 {{item.income >= 0 ? '+' : ''}}{{item.income}}<text class="star-unit">⭐</text></text>
             </view>
             <view class="daily-bar expense-bar">
-              <text>支出 -{{item.expense}}</text>
+              <text>支出 -{{item.expense}}<text class="star-unit">⭐</text></text>
             </view>
           </view>
         </view>
